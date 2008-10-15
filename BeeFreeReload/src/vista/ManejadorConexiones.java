@@ -16,12 +16,14 @@ import logica.Constantes;
 import logica.StringTokenizer;
 import logica.foto.Comentario;
 import logica.foto.Foto;
+import conexion.ConectorRMS;
 import conexion.ICliente;
 import conexion.PreLoader;
 
 public class ManejadorConexiones implements ICliente {
 
 	private static ManejadorConexiones miManejadorConexiones;
+	private boolean isEnvioComent;
 
 	private ManejadorConexiones() {
 	}
@@ -80,21 +82,19 @@ public class ManejadorConexiones implements ICliente {
 		switch (current) {
 		case Constantes.LOGIN_VIS:
 			if (CentralDatos.cookie != null) {
-				
-				if(CentralDatos.primeraVez){
-					
-					Paginador.getPaginador().adelante=true;
+
+				if (CentralDatos.primeraVez) {
+
+					Paginador.getPaginador().adelante = true;
 					Paginador.getPaginador().setCurrent(
 							Constantes.PRIMERA_VEZ_CONTRA_VIS);
-					
-					
-				}else{
-					
+
+				} else {
+
 					Paginador.getPaginador().adelante = true;
 					Paginador.getPaginador().setCurrent(
 							Constantes.MENU_PRINCIPAL_VIS);
 				}
-				
 
 			} else {
 				try {
@@ -169,7 +169,7 @@ public class ManejadorConexiones implements ICliente {
 			}
 			break;
 		case Constantes.PRIMERA_VEZ_CONTRA_VIS:
-			
+
 			if (CentralDatos.respuesta != null) {
 
 				int r = Integer.parseInt(CentralDatos.respuesta.trim());
@@ -178,8 +178,8 @@ public class ManejadorConexiones implements ICliente {
 							"su contrasenia fue cambiada exitosamente", "ok",
 							null);
 
-					Paginador.getPaginador()
-							.setCurrent(Constantes.MENU_PRINCIPAL_VIS);
+					Paginador.getPaginador().setCurrent(
+							Constantes.MENU_PRINCIPAL_VIS);
 
 				} else {
 					Dialog
@@ -188,7 +188,7 @@ public class ManejadorConexiones implements ICliente {
 									"ok", null);
 				}
 			}
-			
+
 			break;
 		case Constantes.CAMBIAR_CONTRASENIA_VIS:
 			if (CentralDatos.respuesta != null) {
@@ -210,7 +210,7 @@ public class ManejadorConexiones implements ICliente {
 				}
 			}
 			break;
-			
+
 		case Constantes.MI_PERFIL_VIS:
 			if (CentralDatos.respuesta != null
 					&& CentralDatos.respuesta.trim().compareTo("1") == 0) {
@@ -263,36 +263,41 @@ public class ManejadorConexiones implements ICliente {
 					.setCurrent(Constantes.ADD_DETALLE_FOTO_VIS);
 
 			break;
-			
+
 		case Constantes.ADD_DETALLE_FOTO_VIS:
-			int nid = 0 ;
-			try{
+			int nid = 0;
+			try {
+
+				String n = CentralDatos.respuesta.substring(3,
+						CentralDatos.respuesta.length());
+
+				int x = n.indexOf("#");
+				n = n.substring(0, x);
+				nid = Integer.parseInt(n);
 				
-				String n =CentralDatos.respuesta.substring(3, CentralDatos.respuesta.length());
-				
-				int x= n.indexOf("#");
-				n=n.substring(0,x);
-				nid=Integer.parseInt(n);
+				AdministradorFotos.getAdministradorFotos().guardarFoto(nid);
 				
 				AdministradorFotos.getAdministradorFotos()
-				.formatearCamposFoto();
-				
-				
-			}catch (Exception e) {
-				Dialog.show("error con el nid",nid+" err:  "+e.getMessage(), "ok", null);
-			}
-			
-//			Dialog.show("envio realizado", "envio realizado con exito", "ok", null);
+						.formatearCamposFoto();
 
-			
+			} catch (Exception e) {
+//				XXX la respuesta esta mal....
+				ConectorRMS.getConectorRMS().guardarIDFotosNoEnviadas();
+				
+				Dialog.show("error con el nid", nid + " err:  "
+						+ e.getMessage(), "ok", null);
+			}
+
+			// Dialog.show("envio realizado", "envio realizado con exito", "ok",
+			// null);
+
 			break;
 
 		case Constantes.OPCIONES_VIS:
 
-
 			StringTokenizer st = new StringTokenizer(CentralDatos.respuesta,
 					";;");
-			
+
 			CentralDatos.perfilNombre = st.nextElement();
 			CentralDatos.perfilApellido = st.nextElement();
 			CentralDatos.perfilTelefono = st.nextElement();
@@ -306,59 +311,86 @@ public class ManejadorConexiones implements ICliente {
 			Paginador.getPaginador().adelante = true;
 			Paginador.getPaginador().setCurrent(Constantes.MI_PERFIL_VIS);
 			break;
-			
+
 		case Constantes.BUSCAR_IMAGEN_VIS:
-			
-			//XXX tercera parte de la conexion
+
+			// XXX tercera parte de la conexion
 			System.out.println("CentralDatos.respuesta");
-			CentralDatos.respuesta= CentralDatos.respuesta.substring(0, CentralDatos.respuesta.length()-2);
-			StringTokenizer tok= new StringTokenizer(CentralDatos.respuesta,"><");
-			
-			CentralDatos.cantidadResultados= tok.tokens;
-			CentralDatos.resultadosBusqueda= new Foto[CentralDatos.cantidadResultados];
-			
-			int i=0;
+			CentralDatos.respuesta = CentralDatos.respuesta.substring(0,
+					CentralDatos.respuesta.length() - 2);
+			StringTokenizer tok = new StringTokenizer(CentralDatos.respuesta,
+					"><");
+
+			CentralDatos.cantidadResultados = tok.tokens;
+			CentralDatos.resultadosBusqueda = new Foto[CentralDatos.cantidadResultados];
+
+			int i = 0;
 			Foto foto;
 			StringTokenizer datos;
-			 nid=0;
-			String nombre="";
-			String url="";
-			String ciudad="";
-			String sitio="";
-			
-			while(tok.hasNext()){
-				datos= new StringTokenizer(tok.nextElement(),"+@");
-				
-				nid= Integer.parseInt(datos.nextElement());
-				nombre= datos.nextElement();
-				url= datos.nextElement();
-				ciudad= datos.nextElement();
-				sitio= datos.nextElement();
-				
-				foto=new Foto(nombre,sitio, ciudad,null,null, null,0,0,0,false, false, 0, null, nid);
-				foto.URL= url;
+			nid = 0;
+			String nombre = "";
+			String url = "";
+			String ciudad = "";
+			String sitio = "";
+
+			while (tok.hasNext()) {
+				datos = new StringTokenizer(tok.nextElement(), "+@");
+
+				nid = Integer.parseInt(datos.nextElement());
+				nombre = datos.nextElement();
+				url = datos.nextElement();
+				ciudad = datos.nextElement();
+				sitio = datos.nextElement();
+
+				foto = new Foto(nombre, sitio, ciudad, null, null, null, 0, 0,
+						0, false, false, 0, null, nid);
+				foto.URL = url;
 				System.out.println(foto.URL);
-				CentralDatos.resultadosBusqueda[i]= foto;
+				CentralDatos.resultadosBusqueda[i] = foto;
 				i++;
 			}
-			
-			DialogCargando.getDialogCargando().iniciarCarga(PreLoader.getPreloader(), DialogCargando.CONEXION_PREVIEWS, null, null);
-			
-			
+
+			DialogCargando.getDialogCargando().iniciarCarga(
+					PreLoader.getPreloader(), DialogCargando.CONEXION_PREVIEWS,
+					null, null);
+
 			break;
 		case Constantes.DETALLES_MIS_IMAGENES_VIS:
-			Dialog.show("respuesta", CentralDatos.respuesta, "ok",null);
-			procesarComentarios();	
+			// TODO quitar dialog
+			if (!isEnvioComent) {
+
+				procesarComentarios();
+			} else {
+				if (CentralDatos.respuesta.compareTo("1") == 0) {
+					Dialog.show("envio exitoso",
+							"Comentario enviado exitosamente", "ok", null);
+					traerComentario();
+				} else {
+					Dialog.show("error", "no fue posible enviar el comentario --> " +CentralDatos.respuesta+ "  <--imprimio res",
+							"ok", null);
+				}
+			}
 			break;
-			
+
 		case Constantes.DETALLES_BI_VIS:
-			Dialog.show("respuesta", CentralDatos.respuesta, "ok",null);
-			procesarComentarios();
-						
+			if (!isEnvioComent) {
+
+				procesarComentarios();
+			} else {
+				if (CentralDatos.respuesta.compareTo("1") == 0) {
+					Dialog.show("envio exitoso",
+							"Comentario enviado exitosamente", "ok", null);
+					traerComentario();
+				} else {
+					Dialog.show("error", "no fue posible enviar el comentario --> " +CentralDatos.respuesta+ "  <--imprimio res",
+							"ok", null);
+				}
+			}
+
 			break;
-			
+
 		case Constantes.RESULTADOS_BUSQUEDA_VIS:
-			
+
 			procesarFotoPreviaResultado();
 			Paginador.getPaginador().adelante = true;
 			Paginador.getPaginador().setCurrent(Constantes.DETALLES_BI_VIS);
@@ -369,52 +401,68 @@ public class ManejadorConexiones implements ICliente {
 	}
 
 	private void procesarFotoPreviaResultado() {
-		try{
+		try {
 			System.out.println(CentralDatos.respuesta);
-			StringTokenizer tokenizer= new StringTokenizer(CentralDatos.respuesta,"::");
-		
-			CentralDatos.fotoDetalles= CentralDatos.resultadosBusqueda[CentralDatos.indiceLista+(CentralDatos.factorDePantallas-1)*10];
-			CentralDatos.fotoDetalles.URL= tokenizer.nextElement();
-			CentralDatos.fotoDetalles.latitud= Double.parseDouble(tokenizer.nextElement());
-			CentralDatos.fotoDetalles.longitud= Double.parseDouble(tokenizer.nextElement());
-			String tags= tokenizer.nextElement();
-			if(tags.length()>1){
-				CentralDatos.fotoDetalles.tags= tags.substring(0, tags.length()-2);
+			StringTokenizer tokenizer = new StringTokenizer(
+					CentralDatos.respuesta, "::");
+
+			CentralDatos.fotoDetalles = CentralDatos.resultadosBusqueda[CentralDatos.indiceLista
+					+ (CentralDatos.factorDePantallas - 1) * 10];
+			CentralDatos.fotoDetalles.URL = tokenizer.nextElement();
+			CentralDatos.fotoDetalles.latitud = Double.parseDouble(tokenizer
+					.nextElement());
+			CentralDatos.fotoDetalles.longitud = Double.parseDouble(tokenizer
+					.nextElement());
+			String tags = tokenizer.nextElement();
+			if (tags.length() > 1) {
+				CentralDatos.fotoDetalles.tags = tags.substring(0, tags
+						.length() - 2);
 			}
-			CentralDatos.fotoDetalles.descipcion= tokenizer.nextElement();
-			System.out.println("salimos bien !:D "+CentralDatos.fotoDetalles.getDatosRMS());
+			CentralDatos.fotoDetalles.descipcion = tokenizer.nextElement();
+			System.out.println("salimos bien !:D "
+					+ CentralDatos.fotoDetalles.getDatosRMS());
 			System.out.println(CentralDatos.fotoDetalles.foto);
-		}catch(Exception e){
+		} catch (Exception e) {
 			System.out.println("null");
 		}
-		
+
 	}
 
 	private void procesarComentarios() {
-//		FIXME falta crear comentarios
-		if(CentralDatos.respuesta.compareTo("")==0||CentralDatos.respuesta.compareTo("0")==0){
-			CentralDatos.comentarios=null;
-		}else{
-			
-			CentralDatos.respuesta=CentralDatos.respuesta.substring(0, CentralDatos.respuesta.length()-2);
-			
-			StringTokenizer token=new StringTokenizer(CentralDatos.respuesta,"><");
-			CentralDatos.comentarios=new Comentario[token.tokens];
-			
-			StringTokenizer a;
-			Comentario co;
-			for (int j = 0; j < CentralDatos.comentarios.length; j++) {
-				a=new StringTokenizer(token.nextElement(),"::");
+		if(CentralDatos.respuesta!=null){
+			try{
 				
+				if (CentralDatos.respuesta.compareTo(" ") == 0||CentralDatos.respuesta.compareTo("") == 0
+						|| CentralDatos.respuesta.compareTo("0") == 0) {
+					CentralDatos.comentarios = null;
+				} else {
+					CentralDatos.respuesta = CentralDatos.respuesta.substring(0,
+							CentralDatos.respuesta.length() - 2);
+					StringTokenizer token = new StringTokenizer(CentralDatos.respuesta,
+					"><");
+					CentralDatos.comentarios = new Comentario[token.tokens];
+					
+					StringTokenizer a;
+					Comentario co;
+					for (int j = 0; j < CentralDatos.comentarios.length; j++) {
+						a = new StringTokenizer(token.nextElement(), "::");
+						
+						co = new Comentario(a.nextElement(), a.nextElement(), a
+								.nextElement());
+						CentralDatos.comentarios[j] = co;
+					}
+					
+				}
+				((FormPaginableVerDetalles) Paginador.getPaginador().current)
+				.ponerComentarios();
+			}catch (Exception e) {
 				
-				co=new Comentario(a.nextElement(),a.nextElement(),a.nextElement());
-				CentralDatos.comentarios[j]=co;
+				Dialog.show("exep:" ,e.toString(),"ok",null);
+				
 			}
-			
+		}else{
 		}
-		((FormPaginableVerDetalles)Paginador.getPaginador().current).ponerComentarios();
 
-		
 	}
 
 	public void realizarPeticion() {
@@ -501,9 +549,10 @@ public class ManejadorConexiones implements ICliente {
 						CentralDatos.perfilGustos).append("&uid=").append(
 						CentralDatos.UID);
 
-		 String param = sb.toString();
-		 DialogCargando.getDialogCargando().iniciarCarga(this,
-		 DialogCargando.CONEXION_HTTP_POST,Constantes.HTTP+Constantes.HTTP_OUT_PERFIL , param);
+		String param = sb.toString();
+		DialogCargando.getDialogCargando().iniciarCarga(this,
+				DialogCargando.CONEXION_HTTP_POST,
+				Constantes.HTTP + Constantes.HTTP_OUT_PERFIL, param);
 
 	}
 
@@ -515,23 +564,21 @@ public class ManejadorConexiones implements ICliente {
 				.getText();
 
 		if (nuevContrasenia.compareTo(CentralDatos.loginActual) != 0) {
-				if (nuevContrasenia.compareTo(confContrasenia) == 0) {
+			if (nuevContrasenia.compareTo(confContrasenia) == 0) {
 
-						String param = "pass=" + nuevContrasenia;
+				String param = "pass=" + nuevContrasenia;
 
-						// respuesta en actualizar
-						DialogCargando.getDialogCargando().iniciarCarga(this,
-								DialogCargando.CONEXION_HTTP_POST,
-								Constantes.HTTP + Constantes.HTTP_CONTRASENIA,
-								param);
+				// respuesta en actualizar
+				DialogCargando.getDialogCargando().iniciarCarga(this,
+						DialogCargando.CONEXION_HTTP_POST,
+						Constantes.HTTP + Constantes.HTTP_CONTRASENIA, param);
 
-					
-				} else {
-					// las nuevas contrasenias no coinciden
-					Dialog.show("error",
-							"las nuevas contrasenias no coinciden entre ellas",
-							"ok", null);
-				}
+			} else {
+				// las nuevas contrasenias no coinciden
+				Dialog.show("error",
+						"las nuevas contrasenias no coinciden entre ellas",
+						"ok", null);
+			}
 
 		} else {
 			// login no debe ser contrasenia
@@ -545,7 +592,7 @@ public class ManejadorConexiones implements ICliente {
 	public void enviarFoto() {
 		DialogCargando.getDialogCargando().iniciarCarga(this,
 				DialogCargando.CONEXION_UPLOAD_FOTO,
-				Constantes.HTTP + Constantes.UPLOADER, null);		
+				Constantes.HTTP + Constantes.UPLOADER, null);
 	}
 
 	public void obtenerGPS() {
@@ -572,31 +619,77 @@ public class ManejadorConexiones implements ICliente {
 				DialogCargando.CONEXION_HTTP_POST,
 				Constantes.HTTP + Constantes.HTTP_IN_PERFIL, param);
 	}
-	
-	public void traerFotoPrevia(){
-	
-		int nid= CentralDatos.resultadosBusqueda[CentralDatos.indiceLista+(CentralDatos.factorDePantallas-1)*10].nid;
-		DialogCargando.getDialogCargando().iniciarCarga(this, DialogCargando.CONEXION_HTTP_POST, Constantes.HTTP+Constantes.HTTP_COMPLETA, "nid="+nid);
-		
+
+	public void traerFotoPrevia() {
+
+		int nid = CentralDatos.resultadosBusqueda[CentralDatos.indiceLista
+				+ (CentralDatos.factorDePantallas - 1) * 10].nid;
+		DialogCargando.getDialogCargando().iniciarCarga(this,
+				DialogCargando.CONEXION_HTTP_POST,
+				Constantes.HTTP + Constantes.HTTP_COMPLETA, "nid=" + nid);
+
 	}
 
 	public void descargarFoto() {
-//		TODO ojo con foto detalles.!!
-		DialogCargando.getDialogCargando().iniciarCarga(this,DialogCargando.CONEXION_DOWNLOAD, CentralDatos.fotoDetalles.URL,null);
-		
-		//DialogCargando.getDialogCargando().iniciarCarga(this, DialogCargando.CONEXION_HTTP_POST, "http://www.informit.com/display/InformIT/images/header/informit.png", "");		
+		// TODO ojo con foto detalles.!!
+		DialogCargando.getDialogCargando().iniciarCarga(this,
+				DialogCargando.CONEXION_DOWNLOAD,
+				CentralDatos.fotoDetalles.URL, null);
+
+		// DialogCargando.getDialogCargando().iniciarCarga(this,
+		// DialogCargando.CONEXION_HTTP_POST,
+		// "http://www.informit.com/display/InformIT/images/header/informit.png",
+		// "");
 	}
 
 	public void buscarWeb(String busq, int crit) {
-		//XXX segunda parte de la conexion
+		// XXX segunda parte de la conexion
 		System.out.println("buscando web");
-		DialogCargando.getDialogCargando().iniciarCarga(this, DialogCargando.CONEXION_HTTP_POST,Constantes.HTTP+Constantes.HTTP_BUSCAR ,"busq="+busq+"&crit="+crit );
+		DialogCargando.getDialogCargando().iniciarCarga(this,
+				DialogCargando.CONEXION_HTTP_POST,
+				Constantes.HTTP + Constantes.HTTP_BUSCAR,
+				"busq=" + busq + "&crit=" + crit);
 	}
 
 	public void traerComentario() {
-		String param="nid="+CentralDatos.fotoDetalles.nid;
-		
-		Dialog.show("parametro", param, "ok",null);
-		DialogCargando.getDialogCargando().iniciarCarga(this, DialogCargando.CONEXION_HTTP_POST,Constantes.HTTP+Constantes.HTTP_TRAER_COMENTARIO ,param);
+
+		isEnvioComent = false;
+		String param = "nid=" + CentralDatos.fotoDetalles.nid;
+
+		DialogCargando.getDialogCargando().iniciarCarga(this,
+				DialogCargando.CONEXION_HTTP_POST,
+				Constantes.HTTP + Constantes.HTTP_TRAER_COMENTARIO, param);
+	}
+
+	public void enviarComentario() {
+
+		isEnvioComent = true;
+
+		FormPaginableVerDetalles fpd = (FormPaginableVerDetalles) Paginador
+				.getPaginador().current;
+		String tit = fpd.tf.getText();
+		String coment = fpd.tar.getText();
+
+		if (tit.compareTo("") != 0 && coment.compareTo("") != 0) {
+
+			String param = "nid=" + CentralDatos.fotoDetalles.nid
+					+ "&timestamp=" + System.currentTimeMillis() + "&subje="
+					+ tit + "&comentario=" + coment + "&uid="
+					+ CentralDatos.UID + "&name=" + CentralDatos.loginActual;
+			// TODO quitar dialog
+
+			DialogCargando.getDialogCargando().iniciarCarga(this,
+					DialogCargando.CONEXION_HTTP_POST,
+					Constantes.HTTP + Constantes.HTTP_ENVIAR_COMMENT, param);
+
+		} else {
+			Dialog
+					.show(
+							"error en los datos",
+							"por favor verifique los datos y vuelva a enviar el comentario",
+							"ok", null);
+
+		}
+
 	}
 }

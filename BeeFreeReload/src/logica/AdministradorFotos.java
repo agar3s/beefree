@@ -92,7 +92,6 @@ public class AdministradorFotos {
 			} else {
 				
 				CentralDatos.tagsFotoPrevia = aux;
-				// }
 			}
 			CentralDatos.fotoPrivada = ((CheckBox) contenedorForm
 					.getComponentAt(12)).isSelected();

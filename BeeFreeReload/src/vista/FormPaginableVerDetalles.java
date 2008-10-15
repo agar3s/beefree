@@ -38,6 +38,8 @@ public class FormPaginableVerDetalles extends Form implements IPaginable {
 	Font fNom=Font.createSystemFont(Font.FACE_PROPORTIONAL, Font.STYLE_BOLD, Font.SIZE_MEDIUM);
 	Font fTit=Font.createSystemFont(Font.FACE_PROPORTIONAL, Font.STYLE_ITALIC, Font.SIZE_MEDIUM);
 	Font fcom=Font.createSystemFont(Font.FACE_PROPORTIONAL, Font.STYLE_PLAIN, Font.SIZE_SMALL);
+	TextArea tar;
+	TextField tf;
 
 	public boolean editandoSitioTuristico = false;
 
@@ -393,15 +395,13 @@ public class FormPaginableVerDetalles extends Form implements IPaginable {
 		comentarios.removeAll();
 		if(CentralDatos.comentarios!=null){
 			
-			
-			Label nom;
+			Button nom;
 			Label tit;
 			Label com;
 			
-			
 			for (int i = 0; i < CentralDatos.comentarios.length; i++) {
 				
-				nom=new Label();
+				nom=new Button();
 				nom.getStyle().setFont(fNom);
 				nom.setTickerEnabled(true);
 				nom.setText(CentralDatos.comentarios[i].nombreUsuario);
@@ -425,15 +425,16 @@ public class FormPaginableVerDetalles extends Form implements IPaginable {
 			comentarios.addComponent(new Label("no hay comentarios"));
 		}
 		
+		
+		comentarios.addComponent(new Label("titulo del coment."));
+		tf=new TextField();
+		comentarios.addComponent(tf);
 		comentarios.addComponent(new Label("agrega uno nuevo"));
-		
-		TextArea tar = new TextArea(5, 20);
+		tar = new TextArea(5, 20);
 		tar.setEditable(true);
-		
 		comentarios.addComponent(tar);
 		Constantes.BOTONdos.setText("Enviar");
 		comentarios.addComponent(Constantes.BOTONdos);
-		
 	}
 
 	public static FormPaginableVerDetalles getFormPaginableVerDetalles() {

@@ -41,7 +41,6 @@ public class DialogCargando extends Dialog implements Runnable {
 	private static DialogCargando miDialogCargando;
 
 	private DialogCargando() {
-		setTitle("Cargando");
 		setTransitionInAnimator(CommonTransitions.createSlide(
 				CommonTransitions.SLIDE_VERTICAL, false, 250));
 		setTransitionOutAnimator(CommonTransitions.createSlide(

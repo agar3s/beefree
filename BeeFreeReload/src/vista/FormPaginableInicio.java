@@ -203,16 +203,16 @@ public class FormPaginableInicio extends Form implements IPaginable {
 			if (d.getHeight() > getHeight() - 50)
 				d = new Dimension(getWidth(), getHeight() - 50);
 			mc.setSize(d);
-			mc.getStyle().setMargin(10, 10, 10, 10);
+			mc.getStyle().setMargin(5, 5, 5, 5);
 
 			addComponent(BorderLayout.CENTER, mc);
 
 			Constantes.BOTONuno.setText("Tomar Foto");
 
 			addComponent(BorderLayout.NORTH, Constantes.BOTONuno);
-			addComponent(BorderLayout.SOUTH, new Label(""));
-			addComponent(BorderLayout.EAST, new Label(""));
-			addComponent(BorderLayout.WEST, new Label(""));
+//			addComponent(BorderLayout.SOUTH, new Label(""));
+//			addComponent(BorderLayout.EAST, new Label(""));
+//			addComponent(BorderLayout.WEST, new Label(""));
 			addCommand(new Command(Constantes.ATRAS_COM));
 
 			mc.start();
