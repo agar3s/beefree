@@ -46,6 +46,11 @@ public class Foto {
 	}
 	
 	public String getDatosRMS(){
+		if(tags.endsWith(", ")){
+			tags= tags.substring(0, tags.length()-2);
+		}
+		System.out.println("tags: "+tags);
+		fecha= System.currentTimeMillis();
 		String datosRmsFoto = name + "++"
 		+ descipcion + "++"
 		+ tags + "++"

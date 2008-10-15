@@ -99,14 +99,15 @@ public class ConectorRMS {
 /**solo es llamado desde descarga de fotos*/
 	public void guardarFotografiaLocal( String datosFoto,
 			String datosLugares, long fecha) {
+		
+		StringBuffer sb = new StringBuffer("");
 
-		StringBuffer sb = new StringBuffer();
-
-		sb = new StringBuffer();
 		sb.append(datosFoto).append("++").append("BF").append(
 				fecha).append(CentralDatos.enconding);
 		datosFoto = sb.toString();
 
+		
+		
 		info = datosFoto.getBytes();
 
 		try {

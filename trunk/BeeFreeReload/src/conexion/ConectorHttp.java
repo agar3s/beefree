@@ -59,6 +59,7 @@ public class ConectorHttp implements Runnable, ICargable {
 			// hc = (HttpConnection) Connector.open(URL+"?"+servicio,
 			// Connector.READ_WRITE);
 			hc = (HttpConnection) Connector.open(URL, Connector.READ_WRITE);
+		//	Dialog.show("buscando", "url "+URL, "ok",null);
 			// Informamos del tipo de petición que vamos a efectuar
 			hc.setRequestMethod(HttpConnection.POST);
 
@@ -110,6 +111,7 @@ public class ConectorHttp implements Runnable, ICargable {
 
 			} else {
 				// si la respuesta no es correcta, guardamos la causa
+				Dialog.show("error", hc.getResponseMessage(), "ok",null);
 				respuesta = hc.getResponseMessage();
 			}
 			// System.out.println("res " + respuesta);
@@ -241,7 +243,9 @@ public class ConectorHttp implements Runnable, ICargable {
 		miConector.servicio = servicio;
 
 		miConector.postMethod = postMethod;
-
+		
+		//Dialog.show("Servicio", "se va a pedir "+servicio, "ok",null);
+		
 		miConector.hilo = new Thread(miConector);
 		miConector.hilo.start();
 

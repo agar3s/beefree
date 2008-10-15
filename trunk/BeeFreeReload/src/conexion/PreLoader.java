@@ -8,8 +8,10 @@ import java.io.OutputStream;
 import javax.microedition.io.Connector;
 import javax.microedition.io.HttpConnection;
 
+import vista.DialogCargando;
 import vista.Paginador;
 
+import com.sun.lwuit.Dialog;
 import com.sun.lwuit.Image;
 
 import logica.CentralDatos;
@@ -25,11 +27,13 @@ public class PreLoader implements ICliente, ICargable, Runnable{
 	boolean terminado=false;
 	
 	private PreLoader(){
+		index=-1;
 		setDatos();
 	}
 	
 	public static PreLoader getPreloader(){
 		//XXX cuarta parte de la carga
+		
 		if(miPreLoader==null)
 			miPreLoader= new PreLoader();
 		return miPreLoader;
@@ -37,13 +41,20 @@ public class PreLoader implements ICliente, ICargable, Runnable{
 
 	public void actualizar() {
 		///XXX QUINTA opcion
-		System.out.println("actualizada");
+		System.out.println("actualizada "+Constantes.VIS_CURRENT);
+		System.out.println("busquedas: "+CentralDatos.buscar+" "+CentralDatos.busquedaLocal);
 		switch(Constantes.VIS_CURRENT){
 			case Constantes.BUSCAR_IMAGEN_VIS:
+				System.out.println("HP!!!!!");
+				//Dialog.show("Actualizar", "entro a la linea 44", "ok",null);
 				System.out.println("5 entro perfecto");
 				Paginador.getPaginador().setCurrent(Constantes.RESULTADOS_BUSQUEDA_VIS);
 			break;
+			default:
+				System.out.println("5 no entro perfecto "+Constantes.VIS_CURRENT+ " "+Constantes.BUSCAR_IMAGEN_VIS);
+				break;
 		}
+		miPreLoader= null;
 		
 	}
 
@@ -58,8 +69,11 @@ public class PreLoader implements ICliente, ICargable, Runnable{
 
 	public void setDatos() {
 		//XXX Cuarta parte iterativo
-		System.out.println("index de busqueda: "+index);
+		System.out.println("index de busqueda: "+index+" d "+CentralDatos.cantidadResultados);
+		//Dialog.show("seteo de datos", "index de busqueda: "+index+ " de "+CentralDatos.cantidadResultados, "ok",null);
 		index++;
+		if(index==0)
+			DialogCargando.getDialogCargando().showModeless();
 		if(index<CentralDatos.cantidadResultados){
 			URL= CentralDatos.resultadosBusqueda[index].URL;
 			StringBuffer buffer= new StringBuffer("");
@@ -73,10 +87,11 @@ public class PreLoader implements ICliente, ICargable, Runnable{
 				}
 			}
 			URL= buffer.toString();
-			
+	
 			hilo= new Thread(this);
 			hilo.start();
 		}else{
+			//Dialog.show("Termino el seteo de datos!", ":D: ", "ok",null);
 			terminado=true;
 		}
 	}
@@ -85,11 +100,15 @@ public class PreLoader implements ICliente, ICargable, Runnable{
 		HttpConnection hc;
 		try {
 			hc = (HttpConnection) Connector.open(Constantes.HTTP+URL, Connector.READ_WRITE);
+			//Dialog.show("antes del query", "URL de descarga: "+Constantes.HTTP+URL, "ok",null);
+			System.out.println(Constantes.HTTP+URL);
 			// Informamos del tipo de petición que vamos a efectuar
-			hc.setRequestMethod(HttpConnection.POST);
+			hc.setRequestMethod(HttpConnection.GET);
 
 			if (CentralDatos.cookie != null) {
 				hc.setRequestProperty("cookie", CentralDatos.cookie);
+			}else{
+				Dialog.show("cookie null!", ":S:", "ok",null);
 			}
 			// Establecemos algunos campos de cabecera
 			hc.setRequestProperty("User-Agent",
@@ -97,8 +116,8 @@ public class PreLoader implements ICliente, ICargable, Runnable{
 			hc.setRequestProperty("Content-Language", "es-ES");
 			// 2) Send header information. Required for POST to work! //lo
 			// encontre despues XD
-			hc.setRequestProperty("Content-Type",
-					"application/x-www-form-urlencoded");
+//			hc.setRequestProperty("Content-Type",
+//					"application/x-www-form-urlencoded");
 
 			// escribimos el mensaje de servicio y cerramos el stream
 
@@ -109,6 +128,7 @@ public class PreLoader implements ICliente, ICargable, Runnable{
 			if (hc.getResponseCode() == HttpConnection.HTTP_OK) {
 				CentralDatos.resultadosBusqueda[index].foto= Image.createImage(is);
 			} else {
+				Dialog.show("Error en la conexion", "http: "+hc.getResponseMessage(), "ok",null);
 				// si la respuesta no es correcta, guardamos la causa
 			}
 			// System.out.println("res " + respuesta);
@@ -117,7 +137,7 @@ public class PreLoader implements ICliente, ICargable, Runnable{
 			is= null;
 			hc= null;
 		} catch (IOException e) {
-			
+			e.printStackTrace();
 		}
 		
 		setDatos();

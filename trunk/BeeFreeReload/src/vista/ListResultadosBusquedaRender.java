@@ -201,7 +201,8 @@ public class ListResultadosBusquedaRender extends Form implements IPaginable {
 	public void destruir() {
 		removeAll();
 		removeAllCommands();
-
+		//CentralDatos.resultadosBusqueda=null;
+		//CentralDatos.cantidadResultados=-1;
 		lista = null;
 		fotoPrevia = null;
 		if (listaFotos != null) {
