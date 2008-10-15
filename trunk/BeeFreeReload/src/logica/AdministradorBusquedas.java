@@ -16,7 +16,7 @@ public class AdministradorBusquedas {
 	private ConectorRMS conRMS;
 
 	private AdministradorBusquedas() {
-		conRMS = ConectorRMS.getConectorRMS();
+		
 	}
 
 	public static AdministradorBusquedas getAdministradorBusquedas() {
@@ -50,6 +50,7 @@ public class AdministradorBusquedas {
 					.getSelectedItem().toString();
 
 			if (lugar.compareTo("mi movil") == 0) {
+				conRMS = ConectorRMS.getConectorRMS();
 				CentralDatos.busquedaLocal = true;
 				conRMS.busquedaLocal(tipoBusqueda,
 						CentralDatos.criterioBusqueda);

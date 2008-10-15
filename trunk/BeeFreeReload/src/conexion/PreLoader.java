@@ -112,7 +112,10 @@ public class PreLoader implements ICliente, ICargable, Runnable{
 				// si la respuesta no es correcta, guardamos la causa
 			}
 			// System.out.println("res " + respuesta);
-
+			is.close();
+			hc.close();
+			is= null;
+			hc= null;
 		} catch (IOException e) {
 			
 		}

@@ -331,6 +331,7 @@ public class ManejadorEventos implements ActionListener {
 
 					// se conecta y se pone los resultados en la central de
 					// datos
+					
 					AdministradorBusquedas.getAdministradorBusquedas()
 							.busquedaPerzonalizada();
 
@@ -396,8 +397,10 @@ public class ManejadorEventos implements ActionListener {
 
 					CentralDatos.fotoDetalles = CentralDatos.resultadosBusqueda[CentralDatos.indiceLista+((CentralDatos.factorDePantallas-1)*10)];
 
-					Paginador.getPaginador().setCurrent(
-							Constantes.DETALLES_BI_VIS);
+					//FIXME
+					//Paginador.getPaginador().setCurrent(
+					//		Constantes.DETALLES_BI_VIS);
+					ManejadorConexiones.getManejadorConexiones().traerFotoPrevia();
 
 				} else if (comm.toString().compareTo(Constantes.ATRAS_COM) == 0) {
 					Paginador.getPaginador().adelante = false;
@@ -535,6 +538,7 @@ public class ManejadorEventos implements ActionListener {
 				} else if (comm.toString().compareTo(Constantes.GUARDAR_COM) == 0) {
 
 					//TODO aca se descarga una imagen de la red
+					//ManejadorConexiones.getManejadorConexiones().traerFotoPrevia();
 
 				} else if (comm.toString().compareTo(Constantes.ELIMINAR_COM) == 0) {
 					int resultado = DialogPaginable.getDialogPaginable()
@@ -694,6 +698,7 @@ public class ManejadorEventos implements ActionListener {
 			}
 			if (e.getSource() instanceof Button) {
 				Button button = (Button) e.getSource();
+				// GUARDAR IMAGEN
 				if (button == Constantes.BOTONuno) {
 
 					boolean datosCorrectos = AdministradorFotos
@@ -704,7 +709,6 @@ public class ManejadorEventos implements ActionListener {
 					if (datosCorrectos) {
 						ManejadorConexiones.getManejadorConexiones()
 						.enviarFoto();
-						
 						
 					} else {
 						Dialog
