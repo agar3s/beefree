@@ -170,16 +170,13 @@ public class ConectorRMS {
 			// dos veces
 
 			for (int i = 0; i < CentralDatos.resultadosBusqueda.length; i++) {
-				System.out.println("buscando...");
 				if (CentralDatos.resultadosBusqueda[i] == fotoDetalles) {
-					System.out.println("acomodando...");
 					Foto[] aux = new Foto[CentralDatos.resultadosBusqueda.length - 1];
 					int pos = 0;
 					for (int j = 0; j < aux.length; j++) {
 						aux[j] = CentralDatos.resultadosBusqueda[pos];
 						pos++;
 						if (i == pos) {
-							System.out.println("salto...");
 							pos++;
 						}
 					}
@@ -232,6 +229,7 @@ public class ConectorRMS {
 //				re = rsFoto.enumerateRecords(new FiltroBusquedaLocal(
 //						criterioBusqueda, "misFotos"), null, true);
 //XXX busca todas lsa fotos no solo las mias				
+				CentralDatos.busquedaLocal = true;
 				re = rsFoto.enumerateRecords(null, null, true);
 			} catch (RecordStoreNotOpenException e) {
 				e.printStackTrace();
@@ -242,7 +240,7 @@ public class ConectorRMS {
 		} catch (Exception e) {
 			CentralDatos.cantidadResultados = -1;
 		}
-
+		
 		if (re != null || re.numRecords() != 0) {
 			int id;
 			byte[] infoFo, infoLug;
@@ -288,6 +286,7 @@ public class ConectorRMS {
 		String duenio;
 		int nid;
 
+		
 		StringTokenizer st = new StringTokenizer(auxFo, "++");
 
 
@@ -297,23 +296,18 @@ public class ConectorRMS {
 		fecha = Long.parseLong(st.nextElement());
 		longitud = Double.parseDouble(st.nextElement());
 		latitud = Double.parseDouble(st.nextElement());
-
 		if (st.nextElement().toLowerCase().compareTo("false") == 0) {
 			privada = false;
 		} else {
 			privada = true;
 		}
-
 		if (st.nextElement().toLowerCase().compareTo("false") == 0) {
 			favorita = false;
 		} else {
 			favorita = true;
 		}
-
 		duenio = st.nextElement();
-		
 		nid=Integer.parseInt(st.nextElement());
-		
 		pic = st.nextElement();
 
 

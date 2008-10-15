@@ -348,7 +348,9 @@ public class FormPaginableVerDetalles extends Form implements IPaginable {
 
 		pestania.addTab("Detalles", detalles);
 
-		if(!CentralDatos.busquedaLocal){
+		if(CentralDatos.busquedaLocal){
+			
+			comentarios = new Container(new BoxLayout(BoxLayout.Y_AXIS));
 			Constantes.BOTONuno.setText("Ver comentarios");
 
 			comentarios.addComponent(Constantes.BOTONuno);
@@ -395,7 +397,7 @@ public class FormPaginableVerDetalles extends Form implements IPaginable {
 		comentarios.removeAll();
 		if(CentralDatos.comentarios!=null){
 			
-			comentarios = new Container(new BoxLayout(BoxLayout.Y_AXIS));
+			
 			Label nom;
 			Label tit;
 			Label com;

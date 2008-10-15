@@ -8,6 +8,8 @@ import java.io.OutputStream;
 import javax.microedition.io.Connector;
 import javax.microedition.io.HttpConnection;
 
+import com.sun.lwuit.Dialog;
+
 import logica.CentralDatos;
 import logica.StringTokenizer;
 
@@ -224,17 +226,17 @@ public class ConectorHttp implements Runnable, ICargable {
 		miConector.URL = URL;
 		servicio= servicio.toLowerCase();
 
-		servicio.replace('á', 'a');
-		servicio.replace('é', 'e');
-		servicio.replace('í', 'i');
-		servicio.replace('ó', 'o');
-		servicio.replace('ú', 'u');
-		servicio.replace('ä', 'a');
-		servicio.replace('ë', 'e');
-		servicio.replace('ï', 'i');
-		servicio.replace('ö', 'o');
-		servicio.replace('ü', 'u');
-		servicio.replace('ñ', 'n');
+		servicio= servicio.replace('á', 'a');
+		servicio= servicio.replace('é', 'e');
+		servicio= servicio.replace('í', 'i');
+		servicio= servicio.replace('ó', 'o');
+		servicio= servicio.replace('ú', 'u');
+		servicio= servicio.replace('ä', 'a');
+		servicio= servicio.replace('ë', 'e');
+		servicio= servicio.replace('ï', 'i');
+		servicio= servicio.replace('ö', 'o');
+		servicio= servicio.replace('ü', 'u');
+		servicio= servicio.replace('ñ', 'n');
 		
 		miConector.servicio = servicio;
 

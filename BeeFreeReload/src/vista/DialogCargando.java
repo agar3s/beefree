@@ -95,12 +95,12 @@ public class DialogCargando extends Dialog implements Runnable {
 			Hashtable params = new Hashtable();
 			
 			params.put("uid", ""+CentralDatos.UID);
-			params.put("ciudad", CentralDatos.ciudadFotoPrevia);
-			params.put("descripcion", CentralDatos.descripcionFotoPrevia);
+			params.put("ciudad", quitarAcentos(CentralDatos.ciudadFotoPrevia));
+			params.put("descripcion", quitarAcentos(CentralDatos.descripcionFotoPrevia));
 			params.put("user", ""+CentralDatos.loginActual);
-			params.put("nombre", CentralDatos.nombreFotoPrevia);
-			params.put("sitio", CentralDatos.sitioTuristicoFotoPrevia);
-			params.put("tags", CentralDatos.tagsFotoPrevia);
+			params.put("nombre", quitarAcentos(CentralDatos.nombreFotoPrevia));
+			params.put("sitio", quitarAcentos(CentralDatos.sitioTuristicoFotoPrevia));
+			params.put("tags", quitarAcentos(CentralDatos.tagsFotoPrevia));
 			params.put("fecha", "" + CentralDatos.fechaActualFotoPrevia);
 			params.put("privada", CentralDatos.fotoPrivada ? "1" : "0");
 			params.put("latitud", "" + CentralDatos.latitud);
@@ -171,6 +171,25 @@ public class DialogCargando extends Dialog implements Runnable {
 
 		cliente.actualizar();
 
+	}
+	
+	public String quitarAcentos(String palabras){
+		
+		palabras= palabras.toLowerCase();
+
+		palabras= palabras.replace('á', 'a');
+		palabras= palabras.replace('é', 'e');
+		palabras= palabras.replace('í', 'i');
+		palabras= palabras.replace('ó', 'o');
+		palabras= palabras.replace('ú', 'u');
+		palabras= palabras.replace('ä', 'a');
+		palabras= palabras.replace('ë', 'e');
+		palabras= palabras.replace('ï', 'i');
+		palabras= palabras.replace('ö', 'o');
+		palabras= palabras.replace('ü', 'u');
+		palabras= palabras.replace('ñ', 'n');
+		
+		return palabras;
 	}
 
 }

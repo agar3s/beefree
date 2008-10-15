@@ -113,7 +113,6 @@ public class AdministradorFotos {
 
 
 	public void guardarFoto(int nid){
-//		TODO llamar despues de conexion exitosa
 		if (conrms == null) {
 			conrms = ConectorRMS.getConectorRMS();
 		}
@@ -133,7 +132,6 @@ public class AdministradorFotos {
 		conrms.guardarFotografiaLocal(CentralDatos.fotoPreviaByte,
 				datosRmsFoto, datosRmsSitio);
 		conrms.cerrarAlmacenFoto();
-		
 	
 	}
 	
