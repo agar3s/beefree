@@ -57,17 +57,18 @@ public class AdministradorBusquedas {
 			} else {
 				
 //				FIXME ACA LLAMAR CONEXIONES
-				
+				System.out.println("buskeda comunidad");
 				CentralDatos.busquedaLocal = false;
 				// conexion comunidad
 				int crit=0;
-				if (tipoBusqueda.compareTo("Tag") == 0) {
+				if (tipoBusqueda.compareTo("Ciudad") == 0) {
 					crit=1;
-				} else if (tipoBusqueda.compareTo("Ciudad") == 0) {
+				} else if (tipoBusqueda.compareTo("Sitio") == 0) {
 					crit=2;
 				} else {			// sitio turistico
 					crit=3;
 				}
+				//XXX primera parte
 				ManejadorConexiones.getManejadorConexiones().buscarWeb(CentralDatos.criterioBusqueda,crit);
 
 			}

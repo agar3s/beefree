@@ -27,6 +27,7 @@ public class DialogCargando extends Dialog implements Runnable {
 	final static byte CONEXION_UPLOAD_FOTO = 5;
 	final static byte CONEXION_SMS = 6;
 	final static byte CONEXION_DOWNLOAD = 8;
+	final static byte CONEXION_PREVIEWS = 9;
 
 	int cont;
 	boolean cargando = false;
@@ -118,6 +119,10 @@ public class DialogCargando extends Dialog implements Runnable {
 			
 		case CONEXION_DOWNLOAD:
 			conexion= new ConectorDownload(URL);
+			break;
+		
+		case CONEXION_PREVIEWS:
+			conexion= (ICargable) cliente;
 			break;
 		}
 

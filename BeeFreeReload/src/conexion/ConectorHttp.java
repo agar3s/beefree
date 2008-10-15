@@ -132,6 +132,7 @@ public class ConectorHttp implements Runnable, ICargable {
 	 */
 	public void conectarGet() {
 		HttpConnection hc;
+		System.out.println("url: "+URL);
 		try {
 			hc = (HttpConnection) Connector.open(URL + "?" + servicio,
 					Connector.READ_WRITE);
@@ -188,11 +189,9 @@ public class ConectorHttp implements Runnable, ICargable {
 			
 			CentralDatos.primeraVez= tok.nextElement().compareTo("0")==0;
 			System.out.println("primera "+CentralDatos.primeraVez);
-			
-			
 		}
-
 		CentralDatos.respuesta = respuesta;
+		System.out.println("respuesta: "+CentralDatos.respuesta);
 		terminado = true;
 	}
 
@@ -223,6 +222,20 @@ public class ConectorHttp implements Runnable, ICargable {
 		miConector.terminado = false;
 		miConector.respuesta = null;
 		miConector.URL = URL;
+		servicio= servicio.toLowerCase();
+
+		servicio.replace('á', 'a');
+		servicio.replace('é', 'e');
+		servicio.replace('í', 'i');
+		servicio.replace('ó', 'o');
+		servicio.replace('ú', 'u');
+		servicio.replace('ä', 'a');
+		servicio.replace('ë', 'e');
+		servicio.replace('ï', 'i');
+		servicio.replace('ö', 'o');
+		servicio.replace('ü', 'u');
+		servicio.replace('ñ', 'n');
+		
 		miConector.servicio = servicio;
 
 		miConector.postMethod = postMethod;
