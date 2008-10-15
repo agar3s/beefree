@@ -9,6 +9,7 @@ import javax.microedition.io.Connector;
 import javax.microedition.io.ContentConnection;
 
 import logica.CentralDatos;
+import logica.Constantes;
 import logica.foto.Foto;
 
 import com.sun.lwuit.Image;
@@ -31,7 +32,17 @@ public class ConectorDownload implements Runnable, ICargable{
 	}
 
 	public void run() {
-
+		StringBuffer buffer= new StringBuffer("");
+		
+		for(int i=0; i<url.length(); i++){
+			char c= url.charAt(i);
+			if(c==' '){
+				buffer.append("%20");
+			}else{
+				buffer.append(c);
+			}
+		}
+		url= buffer.toString();
 		try {
 
 			conexionContenido = (ContentConnection) Connector.open(url);
@@ -122,14 +133,17 @@ public class ConectorDownload implements Runnable, ICargable{
 
 	public void setDatos() {
 //		TODO llenar foto detalles en la conexion!!
-		Foto temp=CentralDatos.fotoDetalles;
-
-		ConectorRMS rms= ConectorRMS.getConectorRMS();
-		rms.abrirAlmacenFoto();
-		rms.guardarFotografiaLocal(temp.getDatosRMS(), temp.getSitioRMS(),temp.fecha);
-		rms.cerrarAlmacenFoto();
-		ConectorFile.getConectorFile().escribirImagen("BF"+temp.fecha+CentralDatos.enconding, imageData);
-		
+		if(Constantes.VIS_CURRENT==Constantes.DETALLES_BI_VIS ){
+			Foto temp=CentralDatos.fotoDetalles;
+	
+			ConectorRMS rms= ConectorRMS.getConectorRMS();
+			rms.abrirAlmacenFoto();
+			rms.guardarFotografiaLocal(temp.getDatosRMS(), temp.getSitioRMS(),temp.fecha);
+			rms.cerrarAlmacenFoto();
+			ConectorFile.getConectorFile().escribirImagen("BF"+temp.fecha, imageData);
+		}else if(Constantes.VIS_CURRENT== Constantes.RESULTADOS_BUSQUEDA_VIS){
+			CentralDatos.fotoDetalles.foto= Image.createImage(imageData,0,imageData.length);
+		}
 		terminado= true;
 	}
 

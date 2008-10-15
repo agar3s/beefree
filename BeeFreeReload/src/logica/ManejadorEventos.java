@@ -403,6 +403,8 @@ public class ManejadorEventos implements ActionListener {
 					ManejadorConexiones.getManejadorConexiones().traerFotoPrevia();
 
 				} else if (comm.toString().compareTo(Constantes.ATRAS_COM) == 0) {
+				//	CentralDatos.resultadosBusqueda = null;
+				//	CentralDatos.cantidadResultados = 0;
 					Paginador.getPaginador().adelante = false;
 					Paginador.getPaginador().setCurrent(
 							Constantes.BUSCAR_IMAGEN_VIS);
@@ -528,6 +530,7 @@ public class ManejadorEventos implements ActionListener {
 			break;
 
 		case Constantes.DETALLES_BI_VIS:
+			CentralDatos.guardando=false;
 			if (e.getSource() instanceof Command) {
 				Command comm = (Command) e.getSource();
 				if (comm.toString().compareTo(Constantes.ATRAS_COM) == 0) {
@@ -536,9 +539,9 @@ public class ManejadorEventos implements ActionListener {
 					Paginador.getPaginador().setCurrent(
 							Constantes.RESULTADOS_BUSQUEDA_VIS);
 				} else if (comm.toString().compareTo(Constantes.GUARDAR_COM) == 0) {
-
+					CentralDatos.guardando=true;
 					//TODO aca se descarga una imagen de la red
-					//ManejadorConexiones.getManejadorConexiones().traerFotoPrevia();
+					ManejadorConexiones.getManejadorConexiones().descargarFoto();
 
 				} else if (comm.toString().compareTo(Constantes.ELIMINAR_COM) == 0) {
 					int resultado = DialogPaginable.getDialogPaginable()
@@ -559,6 +562,7 @@ public class ManejadorEventos implements ActionListener {
 				Button button = (Button) e.getSource();
 				
 				if(button==Constantes.BOTONuno){
+					CentralDatos.guardando=false;
 					ManejadorConexiones.getManejadorConexiones().traerComentario();
 					
 				}else if(button==Constantes.BOTONdos){

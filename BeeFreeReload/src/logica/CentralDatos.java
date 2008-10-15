@@ -84,4 +84,6 @@ public class CentralDatos {
 	public static boolean buscar;
 	
 	public static Comentario comentarios[];
+	public static boolean traidaPreview;
+	public static boolean guardando=false;
 }
