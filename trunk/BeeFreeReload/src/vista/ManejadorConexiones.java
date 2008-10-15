@@ -265,24 +265,26 @@ public class ManejadorConexiones implements ICliente {
 			break;
 			
 		case Constantes.ADD_DETALLE_FOTO_VIS:
-			Paginador.getPaginador().setCurrent(Constantes.BEEFREE_VIS);
 			int nid = 0 ;
+			
 			try{
-				
 				String n =CentralDatos.respuesta.substring(3, CentralDatos.respuesta.length());
 				
 				int x= n.indexOf("#");
 				n=n.substring(0,x);
 				nid=Integer.parseInt(n);
-				
 				AdministradorFotos.getAdministradorFotos().guardarFoto(nid);
 				
+				AdministradorFotos.getAdministradorFotos()
+				.formatearCamposFoto();
+				
+				Paginador.getPaginador().setCurrent(Constantes.BEEFREE_VIS);
 				
 			}catch (Exception e) {
-				Dialog.show("error con el nid",nid+"", "ok", null);
+				Dialog.show("error con el nid",nid+" err:  "+e.getMessage(), "ok", null);
 			}
 			
-			Dialog.show("envio realizado", "envio realizado con exito", "ok", null);
+//			Dialog.show("envio realizado", "envio realizado con exito", "ok", null);
 
 			
 			break;
@@ -346,12 +348,12 @@ public class ManejadorConexiones implements ICliente {
 			
 			break;
 		case Constantes.DETALLES_MIS_IMAGENES_VIS:
-			
+			Dialog.show("respuesta", CentralDatos.respuesta, "ok",null);
 			procesarComentarios();	
 			break;
 			
 		case Constantes.DETALLES_BI_VIS:
-			
+			Dialog.show("respuesta", CentralDatos.respuesta, "ok",null);
 			procesarComentarios();
 						
 			break;
@@ -362,8 +364,8 @@ public class ManejadorConexiones implements ICliente {
 	}
 
 	private void procesarComentarios() {
-		
-		if(CentralDatos.respuesta.compareTo("0")==0){
+//		FIXME falta crear comentarios
+		if(CentralDatos.respuesta.compareTo("")==0||CentralDatos.respuesta.compareTo("0")==0){
 			CentralDatos.comentarios=null;
 		}else{
 			
@@ -559,6 +561,8 @@ public class ManejadorConexiones implements ICliente {
 
 	public void traerComentario() {
 		String param="nid="+CentralDatos.fotoDetalles.nid;
+		
+		Dialog.show("parametro", param, "ok",null);
 		DialogCargando.getDialogCargando().iniciarCarga(this, DialogCargando.CONEXION_HTTP_POST,Constantes.HTTP+Constantes.HTTP_TRAER_COMENTARIO ,param);
 	}
 }

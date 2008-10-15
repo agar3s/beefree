@@ -572,7 +572,7 @@ public class ManejadorEventos implements ActionListener {
 					Paginador.getPaginador().adelante = false;
 //					FIXME ojo aca.... tampoco buscar de nuevo
 					CentralDatos.buscar=false;
-					
+					CentralDatos.busquedaLocal=false;
 					Paginador.getPaginador().setCurrent(
 							Constantes.RESULTADOS_BUSQUEDA_COORD_VIS);
 				}
@@ -624,7 +624,6 @@ public class ManejadorEventos implements ActionListener {
 				Button button = (Button) e.getSource();
 				
 				if(button==Constantes.BOTONuno){
-					
 					ManejadorConexiones.getManejadorConexiones().traerComentario();
 					
 				}else if(button==Constantes.BOTONdos){
@@ -695,7 +694,6 @@ public class ManejadorEventos implements ActionListener {
 			}
 			if (e.getSource() instanceof Button) {
 				Button button = (Button) e.getSource();
-				// GUARDAR IMAGEN
 				if (button == Constantes.BOTONuno) {
 
 					boolean datosCorrectos = AdministradorFotos
@@ -706,8 +704,7 @@ public class ManejadorEventos implements ActionListener {
 					if (datosCorrectos) {
 						ManejadorConexiones.getManejadorConexiones()
 						.enviarFoto();
-						AdministradorFotos.getAdministradorFotos()
-						.formatearCamposFoto();
+						
 						
 					} else {
 						Dialog

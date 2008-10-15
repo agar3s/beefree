@@ -40,7 +40,7 @@ public class conectorGPS implements Runnable, ICargable {
 
 			CentralDatos.haveGPS = true;
 		} catch (LocationException e) {
-			Dialog.show("location", "" + e.getMessage(), "ok", "back");
+			Dialog.show("location", "" + "gps no disponible, buscando en red", "ok", "back");
 			CentralDatos.haveGPS = false;
 
 			e.printStackTrace();

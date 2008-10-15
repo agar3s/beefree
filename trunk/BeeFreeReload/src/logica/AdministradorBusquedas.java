@@ -56,8 +56,6 @@ public class AdministradorBusquedas {
 
 			} else {
 				
-//				FIXME ACA LLAMAR CONEXIONES
-				System.out.println("buskeda comunidad");
 				CentralDatos.busquedaLocal = false;
 				// conexion comunidad
 				int crit=0;
