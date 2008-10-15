@@ -99,5 +99,6 @@ public class Constantes {
 	public static final String UPLOADER = "uploader2.php";
 	public static final String HTTP_BUSCAR = "busqueda.php";
 	public static final String HTTP_CONTRASENIA = "password.php";
+	public static final String HTTP_TRAER_COMENTARIO = "traercomentario.php";
 
 }

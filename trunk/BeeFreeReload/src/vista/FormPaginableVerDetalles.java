@@ -11,6 +11,7 @@ import com.sun.lwuit.Command;
 import com.sun.lwuit.Component;
 import com.sun.lwuit.Container;
 import com.sun.lwuit.Dialog;
+import com.sun.lwuit.Font;
 import com.sun.lwuit.Form;
 import com.sun.lwuit.Image;
 import com.sun.lwuit.Label;
@@ -34,6 +35,9 @@ public class FormPaginableVerDetalles extends Form implements IPaginable {
 	private int indiceSeleccion;
 	ComboBox st, cb;
 	public ComboBox citys;
+	Font fNom=Font.createSystemFont(Font.FACE_PROPORTIONAL, Font.STYLE_BOLD, Font.SIZE_MEDIUM);
+	Font fTit=Font.createSystemFont(Font.FACE_PROPORTIONAL, Font.STYLE_ITALIC, Font.SIZE_MEDIUM);
+	Font fcom=Font.createSystemFont(Font.FACE_PROPORTIONAL, Font.STYLE_PLAIN, Font.SIZE_SMALL);
 
 	public boolean editandoSitioTuristico = false;
 
@@ -345,17 +349,6 @@ public class FormPaginableVerDetalles extends Form implements IPaginable {
 		pestania.addTab("Detalles", detalles);
 
 		if(!CentralDatos.busquedaLocal){
-			
-			//TODO estan pendientes los comentarios de las fotos!!!
-			comentarios = new Container(new BoxLayout(BoxLayout.Y_AXIS));
-			
-			
-//			comentarios.addComponent(new Label("agregar comentario"));
-//			
-//			TextArea tar = new TextArea(5, 20);
-//			tar.setEditable(false);
-//			comentarios.addComponent(tar);
-			
 			Constantes.BOTONuno.setText("Ver comentarios");
 
 			comentarios.addComponent(Constantes.BOTONuno);
@@ -396,6 +389,53 @@ public class FormPaginableVerDetalles extends Form implements IPaginable {
 			break;
 		}
 
+	}
+	
+	public void ponerComentarios(){
+		comentarios.removeAll();
+		if(CentralDatos.comentarios!=null){
+			
+			comentarios = new Container(new BoxLayout(BoxLayout.Y_AXIS));
+			Label nom;
+			Label tit;
+			Label com;
+			
+			
+			for (int i = 0; i < CentralDatos.comentarios.length; i++) {
+				
+				nom=new Label();
+				nom.getStyle().setFont(fNom);
+				nom.setTickerEnabled(true);
+				nom.setText(CentralDatos.comentarios[i].nombreUsuario);
+				comentarios.addComponent(nom);
+				
+				tit=new Label();
+				tit.getStyle().setFont(fTit);
+				tit.setTickerEnabled(true);
+				tit.setText(CentralDatos.comentarios[i].titulo);
+				comentarios.addComponent(tit);
+				
+				com=new Label();
+				com.getStyle().setFont(fcom);
+				com.setTickerEnabled(true);
+				com.setText(CentralDatos.comentarios[i].comentario);
+				comentarios.addComponent(com);
+				
+			}
+			
+		}else{
+			comentarios.addComponent(new Label("no hay comentarios"));
+		}
+		
+		comentarios.addComponent(new Label("agrega uno nuevo"));
+		
+		TextArea tar = new TextArea(5, 20);
+		tar.setEditable(true);
+		
+		comentarios.addComponent(tar);
+		Constantes.BOTONdos.setText("Enviar");
+		comentarios.addComponent(Constantes.BOTONdos);
+		
 	}
 
 	public static FormPaginableVerDetalles getFormPaginableVerDetalles() {

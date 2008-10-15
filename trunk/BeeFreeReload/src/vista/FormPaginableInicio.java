@@ -201,9 +201,9 @@ public class FormPaginableInicio extends Form implements IPaginable {
 
 			Dimension d = mc.getPreferredSize();
 			if (d.getHeight() > getHeight() - 50)
-				d = new Dimension(getWidth(), getHeight() - 70);
+				d = new Dimension(getWidth(), getHeight() - 50);
 			mc.setSize(d);
-			mc.getStyle().setMargin(10, 10, 10, 0);
+			mc.getStyle().setMargin(10, 10, 10, 10);
 
 			addComponent(BorderLayout.CENTER, mc);
 
@@ -247,6 +247,7 @@ public class FormPaginableInicio extends Form implements IPaginable {
 
 		List lista = new List();
 		lista.setFixedSelection(List.FIXED_NONE_CYCLIC);
+		lista.getStyle().setBgTransparency(128);
 
 		for (int i = 0; i < CentralDatos.noticias.length-1; i++) {
 			
