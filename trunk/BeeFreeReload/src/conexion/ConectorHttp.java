@@ -116,7 +116,7 @@ public class ConectorHttp implements Runnable, ICargable {
 
 		} catch (IOException e) {
 			e.printStackTrace();
-			respuesta = "error";
+			respuesta = "error: "+e.toString();
 		}
 
 		CentralDatos.respuesta = respuesta;

@@ -46,12 +46,9 @@ public class ConectorRMS {
 		
 	}
 	
-//	TODO llamar este metodo cuando la respuesta del servidor no sea adecuada
 	public void guardarIDFotosNoEnviadas(){
 //		TODO el metodo de sincronizar debe usar este almacen para enviar las fotos q no han sido enviadas
 		byte[] info=(CentralDatos.idFotoNoEnviada+"").getBytes();
-		
-		
 		try {
 			rsNoEnviado=RecordStore.openRecordStore(almacenNoEnviadas, true);
 			rsNoEnviado.addRecord(info, 0, info.length);
@@ -64,8 +61,6 @@ public class ConectorRMS {
 		} catch (RecordStoreException e) {
 			e.printStackTrace();
 		}
-		
-		
 	}
 	
 	public void guardarFotografiaLocal(byte[] foto, String datosFoto,

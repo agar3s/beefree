@@ -562,7 +562,7 @@ public class ManejadorEventos implements ActionListener {
 					ManejadorConexiones.getManejadorConexiones().traerComentario();
 					
 				}else if(button==Constantes.BOTONdos){
-//					FIXME enviar comentario
+					ManejadorConexiones.getManejadorConexiones().enviarComentario();
 					
 				}
 				
@@ -631,8 +631,7 @@ public class ManejadorEventos implements ActionListener {
 					ManejadorConexiones.getManejadorConexiones().traerComentario();
 					
 				}else if(button==Constantes.BOTONdos){
-//					FIXME enviar comentario
-				
+					ManejadorConexiones.getManejadorConexiones().enviarComentario();
 				}
 				
 			}
