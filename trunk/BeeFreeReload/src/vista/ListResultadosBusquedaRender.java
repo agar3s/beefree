@@ -60,15 +60,17 @@ public class ListResultadosBusquedaRender extends Form implements IPaginable {
 		setLayout(new BorderLayout());
 		if(CentralDatos.buscar){
 			CentralDatos.factorDePantallas=1;
-			ConectorFile cf = ConectorFile.getConectorFile();
-			
-			for (int i = 0; i < CentralDatos.resultadosBusqueda.length; i++) {
+			if(CentralDatos.busquedaLocal){
+				ConectorFile cf = ConectorFile.getConectorFile();
 				
-				cf.leerImagen(CentralDatos.resultadosBusqueda[i].pic);
-				
-				CentralDatos.resultadosBusqueda[i].foto = CentralDatos.fotoBytebusqueda;
-				System.gc();
-			}
+				for (int i = 0; i < CentralDatos.resultadosBusqueda.length; i++) {
+					
+					cf.leerImagen(CentralDatos.resultadosBusqueda[i].pic);
+					
+					CentralDatos.resultadosBusqueda[i].foto = CentralDatos.fotoBytebusqueda;
+					System.gc();
+				}
+				}
 		}
 
 		lista = createList(CentralDatos.resultadosBusqueda);
@@ -181,7 +183,7 @@ public class ListResultadosBusquedaRender extends Form implements IPaginable {
 			Foto foto = (Foto) value;
 			name.setText(foto.name);
 			sitioTuristico.setText(foto.sitioTuristico);
-			sitioTuristico.setText(foto.ciudad);
+			ciudad.setText(foto.ciudad);
 			Image i = foto.foto;
 			i = i.scaled(contactWidth, contactHeight);
 			pic.setIcon(i);
