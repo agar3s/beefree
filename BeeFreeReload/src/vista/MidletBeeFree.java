@@ -44,7 +44,7 @@ public class MidletBeeFree extends MIDlet {
 			CentralDatos.haveLocation = false;
 		}
 
-//		 new ConectorRMS();
+//		 ConectorRMS.getConectorRMS();
 		Display.init(this);
 		Paginador.getPaginador();
 

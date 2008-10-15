@@ -2,6 +2,7 @@ package logica;
 
 import com.sun.lwuit.Image;
 
+import logica.foto.Comentario;
 import logica.foto.Foto;
 
 public class CentralDatos {
@@ -81,4 +82,6 @@ public class CentralDatos {
 //	en caso de q existan mas de 10 resultados de busqueda
 	public static int factorDePantallas=1;
 	public static boolean buscar;
+	
+	public static Comentario comentarios[];
 }

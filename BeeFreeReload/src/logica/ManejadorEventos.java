@@ -333,18 +333,17 @@ public class ManejadorEventos implements ActionListener {
 					// datos
 					AdministradorBusquedas.getAdministradorBusquedas()
 							.busquedaPerzonalizada();
-					if(CentralDatos.busquedaLocal){
-						if (CentralDatos.resultadosBusqueda == null
-								|| CentralDatos.cantidadResultados == 0) {
-							Dialog.show("busqueda",
-									"no se encontraron fotos en su movil", "ok",
-									null);
-						} else {
-							Paginador.getPaginador().adelante = true;
-							CentralDatos.buscar=true;
-							Paginador.getPaginador().setCurrent(
-									Constantes.RESULTADOS_BUSQUEDA_VIS);
-						}
+
+					if (CentralDatos.resultadosBusqueda == null
+							|| CentralDatos.cantidadResultados == 0) {
+						Dialog.show("busqueda",
+								"no se encontraron fotos en su movil", "ok",
+								null);
+					} else {
+						Paginador.getPaginador().adelante = true;
+						CentralDatos.buscar=true;
+						Paginador.getPaginador().setCurrent(
+								Constantes.RESULTADOS_BUSQUEDA_VIS);
 					}
 
 				}
@@ -554,9 +553,11 @@ public class ManejadorEventos implements ActionListener {
 				Button button = (Button) e.getSource();
 				
 				if(button==Constantes.BOTONuno){
+					ManejadorConexiones.getManejadorConexiones().traerComentario();
 					
-//					FIXME aca llama traer detalles de fotoDetalles
-//			TODO manejar evento de envio de comentario		
+				}else if(button==Constantes.BOTONdos){
+//					FIXME enviar comentario
+					
 				}
 				
 			}
@@ -622,8 +623,11 @@ public class ManejadorEventos implements ActionListener {
 				
 				if(button==Constantes.BOTONuno){
 					
-//					FIXME aca llama traer detalles de fotoDetalles
-//			TODO manejar evento de envio de comentario		
+					ManejadorConexiones.getManejadorConexiones().traerComentario();
+					
+				}else if(button==Constantes.BOTONdos){
+//					FIXME enviar comentario
+				
 				}
 				
 			}

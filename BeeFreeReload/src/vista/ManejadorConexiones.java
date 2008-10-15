@@ -3,9 +3,6 @@ package vista;
 import java.util.Calendar;
 import java.util.TimeZone;
 
-import javax.microedition.io.HttpConnection;
-import javax.microedition.io.PushRegistry;
-
 import com.sun.lwuit.ComboBox;
 import com.sun.lwuit.Container;
 import com.sun.lwuit.Dialog;
@@ -17,9 +14,9 @@ import logica.CentralDatos;
 import logica.Ciudad;
 import logica.Constantes;
 import logica.StringTokenizer;
+import logica.foto.Comentario;
 import logica.foto.Foto;
 import conexion.ICliente;
-import conexion.PreLoader;
 
 public class ManejadorConexiones implements ICliente {
 
@@ -303,10 +300,8 @@ public class ManejadorConexiones implements ICliente {
 			break;
 			
 		case Constantes.BUSCAR_IMAGEN_VIS:
-			
-			//XXX tercera parte de la conexion
 			System.out.println("CentralDatos.respuesta");
-			CentralDatos.respuesta= CentralDatos.respuesta.substring(0, CentralDatos.respuesta.length()-2);
+			
 			StringTokenizer tok= new StringTokenizer(CentralDatos.respuesta,"><");
 			
 			CentralDatos.cantidadResultados= tok.tokens;
@@ -332,19 +327,53 @@ public class ManejadorConexiones implements ICliente {
 				
 				foto=new Foto(nombre,sitio, ciudad,null,null, null,0,0,0,false, false, 0, null, nid);
 				foto.URL= url;
-				System.out.println(foto.URL);
 				CentralDatos.resultadosBusqueda[i]= foto;
-				i++;
+				
 			}
 			
-			DialogCargando.getDialogCargando().iniciarCarga(PreLoader.getPreloader(), DialogCargando.CONEXION_PREVIEWS, null, null);
 			
+			break;
+		case Constantes.DETALLES_MIS_IMAGENES_VIS:
 			
+			procesarComentarios();	
+			break;
+			
+		case Constantes.DETALLES_BI_VIS:
+			
+			procesarComentarios();
+						
 			break;
 		
 		}
 
 		Paginador.getPaginador().current.show();
+	}
+
+	private void procesarComentarios() {
+		
+		if(CentralDatos.respuesta.compareTo("0")==0){
+			CentralDatos.comentarios=null;
+		}else{
+			
+			CentralDatos.respuesta=CentralDatos.respuesta.substring(0, CentralDatos.respuesta.length()-2);
+			
+			StringTokenizer token=new StringTokenizer(CentralDatos.respuesta,"><");
+			CentralDatos.comentarios=new Comentario[token.tokens];
+			
+			StringTokenizer a;
+			Comentario co;
+			for (int j = 0; j < CentralDatos.comentarios.length; j++) {
+				a=new StringTokenizer(token.nextElement(),"::");
+				
+				
+				co=new Comentario(a.nextElement(),a.nextElement(),a.nextElement());
+				CentralDatos.comentarios[j]=co;
+			}
+			
+		}
+		((FormPaginableVerDetalles)Paginador.getPaginador().current).ponerComentarios();
+
+		
 	}
 
 	public void realizarPeticion() {
@@ -511,8 +540,11 @@ public class ManejadorConexiones implements ICliente {
 	}
 
 	public void buscarWeb(String busq, int crit) {
-		//XXX segunda parte de la conexion
-		System.out.println("buscando web");
-		DialogCargando.getDialogCargando().iniciarCarga(this, DialogCargando.CONEXION_HTTP_GET,Constantes.HTTP+Constantes.HTTP_BUSCAR ,"busq="+busq+"&crit="+crit );
+		DialogCargando.getDialogCargando().iniciarCarga(this, DialogCargando.CONEXION_HTTP_POST,Constantes.HTTP+Constantes.HTTP_BUSCAR ,"busq="+busq+"&crit="+crit );
+	}
+
+	public void traerComentario() {
+		String param="nid="+CentralDatos.fotoDetalles.nid;
+		DialogCargando.getDialogCargando().iniciarCarga(this, DialogCargando.CONEXION_HTTP_POST,Constantes.HTTP+Constantes.HTTP_TRAER_COMENTARIO ,param);
 	}
 }

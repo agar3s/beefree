@@ -96,6 +96,8 @@ public class FormPaginableOpciones extends Form implements IPaginable {
 		checkList = new CheckBox[tam];
 		for (int i = 0; i < tam; i++) {
 			checkList[i] = new CheckBox();
+			checkList[i].getStyle().setBgTransparency(128);
+			checkList[i].setTickerEnabled(true);
 			checkList[i].setText(nombresContactos[i]);
 			addComponent(checkList[i]);
 		}

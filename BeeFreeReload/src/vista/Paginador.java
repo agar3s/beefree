@@ -10,6 +10,7 @@ import com.sun.lwuit.Component;
 import com.sun.lwuit.Font;
 import com.sun.lwuit.Form;
 import com.sun.lwuit.animations.CommonTransitions;
+import com.sun.lwuit.animations.Transition3D;
 import com.sun.lwuit.plaf.UIManager;
 import com.sun.lwuit.util.Resources;
 
@@ -223,10 +224,10 @@ public class Paginador {
 			break;
 		}
 		
-		current.setTransitionInAnimator(CommonTransitions.createSlide(CommonTransitions.SLIDE_HORIZONTAL, !adelante, 400));
+//		current.setTransitionInAnimator(CommonTransitions.createSlide(CommonTransitions.SLIDE_HORIZONTAL, !adelante, 600));
 		
-//		current.setTransitionInAnimator(Transition3D.createRotation(500,
-//				!adelante));
+		current.setTransitionInAnimator(Transition3D.createRotation(600,
+				!adelante));
 
 		Constantes.VIS_CURRENT = next;
 		current.setCommandListener(eventico);
