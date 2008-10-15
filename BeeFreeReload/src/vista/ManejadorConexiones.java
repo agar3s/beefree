@@ -265,12 +265,16 @@ public class ManejadorConexiones implements ICliente {
 			break;
 			
 		case Constantes.ADD_DETALLE_FOTO_VIS:
-			Dialog.show("envio realizado", CentralDatos.respuesta, "ok", null);
 			Paginador.getPaginador().setCurrent(Constantes.BEEFREE_VIS);
 			int nid = 0 ;
 			try{
 				
-				nid =Integer.parseInt(CentralDatos.respuesta.substring(3, CentralDatos.respuesta.length()));
+				String n =CentralDatos.respuesta.substring(3, CentralDatos.respuesta.length());
+				
+				int x= n.indexOf("#");
+				n=n.substring(0,x);
+				nid=Integer.parseInt(n);
+				
 				AdministradorFotos.getAdministradorFotos().guardarFoto(nid);
 				
 				
@@ -278,10 +282,12 @@ public class ManejadorConexiones implements ICliente {
 				Dialog.show("error con el nid",nid+"", "ok", null);
 			}
 			
+			Dialog.show("envio realizado", "envio realizado con exito", "ok", null);
+
+			
 			break;
 
 		case Constantes.OPCIONES_VIS:
-
 
 			StringTokenizer st = new StringTokenizer(CentralDatos.respuesta,
 					";;");
@@ -548,7 +554,7 @@ public class ManejadorConexiones implements ICliente {
 	public void buscarWeb(String busq, int crit) {
 		//XXX segunda parte de la conexion
 		System.out.println("buscando web");
-		DialogCargando.getDialogCargando().iniciarCarga(this, DialogCargando.CONEXION_HTTP_GET,Constantes.HTTP+Constantes.HTTP_BUSCAR ,"busq="+busq+"&crit="+crit );
+		DialogCargando.getDialogCargando().iniciarCarga(this, DialogCargando.CONEXION_HTTP_POST,Constantes.HTTP+Constantes.HTTP_BUSCAR ,"busq="+busq+"&crit="+crit );
 	}
 
 	public void traerComentario() {
