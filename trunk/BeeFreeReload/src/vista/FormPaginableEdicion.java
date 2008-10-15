@@ -1,8 +1,8 @@
 package vista;
 
-import java.io.IOException;
 
 import logica.Bocadillo;
+import logica.CentralDatos;
 import logica.Constantes;
 
 import com.sun.lwuit.Command;
@@ -25,7 +25,7 @@ public class FormPaginableEdicion extends Form implements IPaginable {
 	final int fire = -5;
 
 	public boolean seleccionado, editando;
-	private Bocadillo bocadito;
+	//private Bocadillo bocadito;
 
 	private FormPaginableEdicion() {
 
@@ -35,11 +35,9 @@ public class FormPaginableEdicion extends Form implements IPaginable {
 
 		buffer = Image.createImage(getWidth(), getHeight());
 
-		try {
-			editable = Image.createImage("/iguana.png");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	
+			editable = CentralDatos.fotoDetalles.foto;
+		
 
 		gBuffer = buffer.getGraphics();
 
@@ -54,12 +52,12 @@ public class FormPaginableEdicion extends Form implements IPaginable {
 		y = (getHeight() - 30) / 2;
 
 		seleccionado = false;
-
+/*
 		bocadito = new Bocadillo(
 				20,
 				26,
 				"Este es un texto largo donde se supone se debe dividir en muchos pedazitos, eso es asi es la vida, la vida trist, jajajaja ke risa tan graciosa!!!! huyyy ke mal");
-
+*/
 	}
 
 	public void keyPressed(int keyCode) {
@@ -114,7 +112,7 @@ public class FormPaginableEdicion extends Form implements IPaginable {
 					: ySelect, ancho, alto);
 		}
 		gBuffer.drawRect(x - 7, y - 1, 11, 3);
-		bocadito.pintar(gBuffer);
+	//	bocadito.pintar(gBuffer);
 		gBuffer.drawRect(x - 8, y - 1, 11, 3);
 		g.drawImage(buffer, 0, 0);
 
