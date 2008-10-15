@@ -279,17 +279,20 @@ public class ManejadorConexiones implements ICliente {
 				
 				AdministradorFotos.getAdministradorFotos()
 						.formatearCamposFoto();
+				
+				Dialog.show("envio realizado", "envio realizado con exito", "ok",
+						 null);
+				
+				Paginador.getPaginador().adelante=false;
+				Paginador.getPaginador().setCurrent(Constantes.BEEFREE_VIS);
 
 			} catch (Exception e) {
 //				XXX la respuesta esta mal....
 				ConectorRMS.getConectorRMS().guardarIDFotosNoEnviadas();
 				
-				Dialog.show("error con el nid", nid + " err:  "
+				Dialog.show("error con el nid", nid + " la respuesta no fue enviada, se guardo en rms para un envio posterior "
 						+ e.getMessage(), "ok", null);
 			}
-
-			// Dialog.show("envio realizado", "envio realizado con exito", "ok",
-			// null);
 
 			break;
 
