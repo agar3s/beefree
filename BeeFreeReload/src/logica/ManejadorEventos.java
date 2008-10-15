@@ -334,16 +334,18 @@ public class ManejadorEventos implements ActionListener {
 					AdministradorBusquedas.getAdministradorBusquedas()
 							.busquedaPerzonalizada();
 
-					if (CentralDatos.resultadosBusqueda == null
-							|| CentralDatos.cantidadResultados == 0) {
-						Dialog.show("busqueda",
-								"no se encontraron fotos en su movil", "ok",
-								null);
-					} else {
-						Paginador.getPaginador().adelante = true;
-						CentralDatos.buscar=true;
-						Paginador.getPaginador().setCurrent(
-								Constantes.RESULTADOS_BUSQUEDA_VIS);
+					if(CentralDatos.busquedaLocal){
+						if (CentralDatos.resultadosBusqueda == null
+								|| CentralDatos.cantidadResultados == 0) {
+							Dialog.show("busqueda",
+									"no se encontraron fotos en su movil", "ok",
+									null);
+						} else {
+							Paginador.getPaginador().adelante = true;
+							CentralDatos.buscar=true;
+							Paginador.getPaginador().setCurrent(
+									Constantes.RESULTADOS_BUSQUEDA_VIS);
+						}
 					}
 
 				}
