@@ -266,19 +266,17 @@ public class ManejadorConexiones implements ICliente {
 			
 		case Constantes.ADD_DETALLE_FOTO_VIS:
 			int nid = 0 ;
-			
 			try{
+				
 				String n =CentralDatos.respuesta.substring(3, CentralDatos.respuesta.length());
 				
 				int x= n.indexOf("#");
 				n=n.substring(0,x);
 				nid=Integer.parseInt(n);
-				AdministradorFotos.getAdministradorFotos().guardarFoto(nid);
 				
 				AdministradorFotos.getAdministradorFotos()
 				.formatearCamposFoto();
 				
-				Paginador.getPaginador().setCurrent(Constantes.BEEFREE_VIS);
 				
 			}catch (Exception e) {
 				Dialog.show("error con el nid",nid+" err:  "+e.getMessage(), "ok", null);
@@ -290,6 +288,7 @@ public class ManejadorConexiones implements ICliente {
 			break;
 
 		case Constantes.OPCIONES_VIS:
+
 
 			StringTokenizer st = new StringTokenizer(CentralDatos.respuesta,
 					";;");
@@ -357,10 +356,38 @@ public class ManejadorConexiones implements ICliente {
 			procesarComentarios();
 						
 			break;
-		
+			
+		case Constantes.RESULTADOS_BUSQUEDA_VIS:
+			
+			procesarFotoPreviaResultado();
+			Paginador.getPaginador().adelante = true;
+			Paginador.getPaginador().setCurrent(Constantes.DETALLES_BI_VIS);
+			break;
 		}
 
 		Paginador.getPaginador().current.show();
+	}
+
+	private void procesarFotoPreviaResultado() {
+		try{
+			System.out.println(CentralDatos.respuesta);
+			StringTokenizer tokenizer= new StringTokenizer(CentralDatos.respuesta,"::");
+		
+			CentralDatos.fotoDetalles= CentralDatos.resultadosBusqueda[CentralDatos.indiceLista+(CentralDatos.factorDePantallas-1)*10];
+			CentralDatos.fotoDetalles.URL= tokenizer.nextElement();
+			CentralDatos.fotoDetalles.latitud= Double.parseDouble(tokenizer.nextElement());
+			CentralDatos.fotoDetalles.longitud= Double.parseDouble(tokenizer.nextElement());
+			String tags= tokenizer.nextElement();
+			if(tags.length()>1){
+				CentralDatos.fotoDetalles.tags= tags.substring(0, tags.length()-2);
+			}
+			CentralDatos.fotoDetalles.descipcion= tokenizer.nextElement();
+			System.out.println("salimos bien !:D "+CentralDatos.fotoDetalles.getDatosRMS());
+			System.out.println(CentralDatos.fotoDetalles.foto);
+		}catch(Exception e){
+			System.out.println("null");
+		}
+		
 	}
 
 	private void procesarComentarios() {
@@ -544,6 +571,13 @@ public class ManejadorConexiones implements ICliente {
 		DialogCargando.getDialogCargando().iniciarCarga(this,
 				DialogCargando.CONEXION_HTTP_POST,
 				Constantes.HTTP + Constantes.HTTP_IN_PERFIL, param);
+	}
+	
+	public void traerFotoPrevia(){
+	
+		int nid= CentralDatos.resultadosBusqueda[CentralDatos.indiceLista+(CentralDatos.factorDePantallas-1)*10].nid;
+		DialogCargando.getDialogCargando().iniciarCarga(this, DialogCargando.CONEXION_HTTP_POST, Constantes.HTTP+Constantes.HTTP_COMPLETA, "nid="+nid);
+		
 	}
 
 	public void descargarFoto() {

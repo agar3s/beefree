@@ -32,22 +32,22 @@ public class ListResultadosBusquedaRender extends Form implements IPaginable {
 	private FotosRenderer fcr;
 
 	private ListResultadosBusquedaRender() {
-		fcr = new FotosRenderer();
+		fcr=new FotosRenderer();
 	}
 
 	public String getName() {
 		return "Scrolling";
 	}
-
-	public void repintarLista() {
+	
+	public void repintarLista(){
 		removeComponent(lista);
 		removeAllCommands();
 		lista = createList(CentralDatos.resultadosBusqueda);
 		addComponent(BorderLayout.CENTER, lista);
 		addCommand(new Command(Constantes.ATRAS_COM));
 		addCommand(new Command(Constantes.DETALLES_COM));
-		CentralDatos.indiceLista = 0;
-
+		CentralDatos.indiceLista=0;
+		repaint();
 	}
 
 	protected void execute() {
@@ -56,62 +56,61 @@ public class ListResultadosBusquedaRender extends Form implements IPaginable {
 		setTitle("Resultados de Busqueda");
 		addCommand(new Command(Constantes.ATRAS_COM));
 		addCommand(new Command(Constantes.DETALLES_COM));
-
+		
 		setScrollable(false);
 		setLayout(new BorderLayout());
-		
-		
-		if (CentralDatos.buscar) {
-			CentralDatos.factorDePantallas = 1;
-			if (CentralDatos.busquedaLocal) {
+		if(CentralDatos.buscar){
+			CentralDatos.factorDePantallas=1;
+			if(CentralDatos.busquedaLocal){
 				ConectorFile cf = ConectorFile.getConectorFile();
-
+				
 				for (int i = 0; i < CentralDatos.resultadosBusqueda.length; i++) {
-
+					
 					cf.leerImagen(CentralDatos.resultadosBusqueda[i].pic);
-
+					
 					CentralDatos.resultadosBusqueda[i].foto = CentralDatos.fotoBytebusqueda;
 					System.gc();
 				}
-			}
+				}
 		}
+
 		lista = createList(CentralDatos.resultadosBusqueda);
-
+		
 		addComponent(BorderLayout.CENTER, lista);
-
+		
 	}
 
 	private List createList(Foto[] fotos) {
-
+		
 		Foto[] lista;
+		
+		if(fotos.length>=CentralDatos.maximoEnLista){
+			int tamanio=CentralDatos.maximoEnLista;
 
-		if (fotos.length >= CentralDatos.maximoEnLista) {
-			int tamanio = CentralDatos.maximoEnLista;
-
-			if (CentralDatos.factorDePantallas <= 1) {
+			if(CentralDatos.factorDePantallas<=1){
 				addCommand(new Command(Constantes.SIGUIENTE_COM));
-			} else {
+			}else{
 				addCommand(new Command(Constantes.ANTERIOR_COM));
-
-				if (fotos.length > CentralDatos.factorDePantallas
-						* CentralDatos.maximoEnLista) {
-					addCommand(new Command(Constantes.SIGUIENTE_COM));
-				} else {
-					tamanio = fotos.length % 10;
+				
+				if(fotos.length>CentralDatos.factorDePantallas*CentralDatos.maximoEnLista){
+					addCommand(new Command(Constantes.SIGUIENTE_COM));	
+				}else{
+					tamanio=fotos.length%10;	
 				}
 			}
-
-			Foto[] aux = new Foto[tamanio];
-
+			
+			
+			Foto[] aux=new Foto[tamanio];
+			
 			for (int i = 0; i < aux.length; i++) {
-				aux[i] = fotos[i + ((CentralDatos.factorDePantallas - 1) * 10)];
+				aux[i]=fotos[i+((CentralDatos.factorDePantallas-1)*10)];
 			}
-			lista = aux;
-
-		} else {
-			lista = fotos;
+			lista=aux;
+			
+		}else{
+			lista=fotos;
 		}
-		final int indiceMaximo = lista.length;
+		final int indiceMaximo=lista.length;
 		List list = new List(lista) {
 			public void keyPressed(int key) {
 				if (key == -4) {
@@ -154,7 +153,7 @@ public class ListResultadosBusquedaRender extends Form implements IPaginable {
 		private Label focus = new Label("");
 
 		public FotosRenderer() {
-
+			
 			name.getStyle().setBgTransparency(128);
 			name.setTickerEnabled(true);
 			sitioTuristico.getStyle().setBgTransparency(128);
@@ -163,7 +162,7 @@ public class ListResultadosBusquedaRender extends Form implements IPaginable {
 			ciudad.setTickerEnabled(true);
 			pic.getStyle().setBgTransparency(128);
 			pic.setTickerEnabled(true);
-
+			
 			setLayout(new BorderLayout());
 			addComponent(BorderLayout.WEST, pic);
 			Container cnt = new Container(new BoxLayout(BoxLayout.Y_AXIS));

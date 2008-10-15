@@ -274,7 +274,6 @@ public class FormPaginableVerDetalles extends Form implements IPaginable {
 		}
 
 		fotografia.addComponent(new Button(foto));
-
 		pestania.addTab("Foto", fotografia);
 
 		detalles = new Container(new BoxLayout(BoxLayout.Y_AXIS));
@@ -292,31 +291,25 @@ public class FormPaginableVerDetalles extends Form implements IPaginable {
 		t = new TextField(CentralDatos.fotoDetalles.name);
 		t.setEditable(false);
 		detalles.addComponent(t);
-
 		detalles.addComponent(new Label("ciudad"));
-
 		t = new TextField(CentralDatos.fotoDetalles.ciudad);
 		t.setEditable(false);
 		detalles.addComponent(t);
-
 		detalles.addComponent(new Label("sitio turistico"));
 
 		t = new TextField(CentralDatos.fotoDetalles.sitioTuristico);
 		t.setEditable(false);
 		detalles.addComponent(t);
-
 		detalles.addComponent(new Label("Descripción"));
 
 		TextArea ta = new TextArea(CentralDatos.fotoDetalles.descipcion, 5, 20);
 		ta.setEditable(false);
 		detalles.addComponent(ta);
-
 		detalles.addComponent(new Label("longitud"));
 
 		t = new TextField(CentralDatos.fotoDetalles.longitud + "");
 		t.setEditable(false);
 		detalles.addComponent(t);
-
 		detalles.addComponent(new Label("latitud"));
 
 		t = new TextField(CentralDatos.fotoDetalles.latitud + "");
@@ -341,8 +334,11 @@ public class FormPaginableVerDetalles extends Form implements IPaginable {
 		}
 
 		detalles.addComponent(new Label("el propietario de esta foto es"));
-
+		
+		if(CentralDatos.fotoDetalles.duenio!=null)
 		t = new TextField(CentralDatos.fotoDetalles.duenio);
+		else
+			t = new TextField("otro");
 		t.setEditable(false);
 		detalles.addComponent(t);
 
@@ -356,7 +352,7 @@ public class FormPaginableVerDetalles extends Form implements IPaginable {
 			comentarios.addComponent(Constantes.BOTONuno);
 			pestania.addTab("Comentarios", comentarios);
 		}
-
+		
 		addComponent(pestania);
 
 		addCommand(new Command(Constantes.ATRAS_COM));

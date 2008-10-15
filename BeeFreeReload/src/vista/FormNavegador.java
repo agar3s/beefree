@@ -61,18 +61,6 @@ public class FormNavegador extends Form implements Runnable, IPaginable,
 		}else if(consulta== DialogCargando.CONEXION_GOOGLE_MAP){
 			
 		}
-//		if (CentralDatos.GPSLISTO&&CentralDatos.haveGPS) {
-//			System.out.println("2?");
-//			if (consulta == DialogCargando.CONEXION_GOOGLE_MAP)
-//				iniciarGrilla(true);
-//		} else {
-//			System.out.println("3");
-//			if (consulta == DialogCargando.CONEXION_GOOGLE_MAP){
-//				DialogCargando.getDialogCargando().showModeless();
-//			}else if(CentralDatos.imagenMapa==null){
-//				iniciarGrilla(true);
-//			}
-//		}
 	}
 
 	private FormNavegador() {
@@ -117,8 +105,7 @@ public class FormNavegador extends Form implements Runnable, IPaginable,
 		if (CentralDatos.imagenMapa != null) {
 			g.drawImage(CentralDatos.imagenMapa, CentralDatos.viewPortX,
 					CentralDatos.viewPortY);
-			// g.setColor(0X005632);
-			// g.fillTriangle(x-5, y-5, x+5, y-5,x,y);
+
 			int t = cont;
 			
 			if (buscando) {
