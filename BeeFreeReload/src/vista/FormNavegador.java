@@ -45,7 +45,8 @@ public class FormNavegador extends Form implements Runnable, IPaginable,
 	private int nRes = 0;
 	private double reslat[];
 	private double reslong[];
-	private int resnid[];
+	public int resnid[];
+	public byte indexSeleccionado=-1;
 	/***/
 
 	private static FormNavegador miFormNavegador;
@@ -138,18 +139,23 @@ public class FormNavegador extends Form implements Runnable, IPaginable,
 				// int xres;
 				// int yres;
 				int color = 0X000000;
+				indexSeleccionado=-1;
 				for (int i = 0; i < nRes; i++) {
 					// xres=(int)
 					// ((Math.abs(reslong[i])-Math.abs(CentralDatos.longitud))/UDLongitud);
 					// yres=(int)
 					// ((Math.abs(reslat[i])-Math.abs(CentralDatos.latitud))/UDLongitud);
+					int xx= (int) (CentralDatos.viewPortX + reslong[i] - 5);
+					int yy= (int) (CentralDatos.viewPortY + reslat[i] - 5);
 					g.setColor(color + (0XFFFFF / nRes) * i);
-					g
-							.fillArc(
-									(int) (CentralDatos.viewPortX + reslong[i] - CentralDatos.zoom / 2),
-									(int) (CentralDatos.viewPortY + reslat[i] - CentralDatos.zoom / 2),
-									CentralDatos.zoom, CentralDatos.zoom, 0,
-									360);
+					g.fillArc(xx	,yy,10, 10, 0,	360);
+					
+					if(x>xx&&x<xx+10&&y>yy&&y<yy+10){
+						g.setColor(0X000000);
+						g.drawArc(xx, yy, 10, 10, 0, 360);
+						indexSeleccionado=(byte) i;
+					}
+					
 				}
 			}
 
@@ -455,8 +461,11 @@ public class FormNavegador extends Form implements Runnable, IPaginable,
 
 					// System.out.println(reslat[i]+":"+reslong[i]);
 					i++;
-
+					res=null;
+					System.gc();
 				}
+				tok= null;
+				System.gc();
 				System.out.println("i: " + i);
 			} else {
 				nRes = 0;

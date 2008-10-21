@@ -261,6 +261,7 @@ public class FormPaginableVerDetalles extends Form implements IPaginable {
 	}
 
 	public void setFormDetalles() {
+		System.out.println("bien :D");
 		setTitle("detalles de la imagen");
 
 		pestania = new TabbedPane(Component.TOP);
@@ -268,6 +269,7 @@ public class FormPaginableVerDetalles extends Form implements IPaginable {
 		fotografia = new Container(new BoxLayout(BoxLayout.Y_AXIS));
 
 		Image foto = CentralDatos.fotoDetalles.foto;
+		System.out.println("1");
 		if (getWidth() < foto.getWidth()) {
 			foto = foto.scaledWidth(getWidth());
 		}
@@ -288,6 +290,7 @@ public class FormPaginableVerDetalles extends Form implements IPaginable {
 		// publica
 		// privada
 		// propietario
+		System.out.println("2");
 		detalles.addComponent(new Label("nombre de la foto"));
 
 		t = new TextField(CentralDatos.fotoDetalles.name);
@@ -299,21 +302,28 @@ public class FormPaginableVerDetalles extends Form implements IPaginable {
 		detalles.addComponent(t);
 		detalles.addComponent(new Label("sitio turistico"));
 
+		System.out.println("3");
 		t = new TextField(CentralDatos.fotoDetalles.sitioTuristico);
 		t.setEditable(false);
 		detalles.addComponent(t);
 		detalles.addComponent(new Label("Descripción"));
+
+		System.out.println("4");
 
 		TextArea ta = new TextArea(CentralDatos.fotoDetalles.descipcion, 5, 20);
 		ta.setEditable(false);
 		detalles.addComponent(ta);
 		detalles.addComponent(new Label("longitud"));
 
+
+		System.out.println("5");
+		
 		t = new TextField(CentralDatos.fotoDetalles.longitud + "");
 		t.setEditable(false);
 		detalles.addComponent(t);
 		detalles.addComponent(new Label("latitud"));
 
+		System.out.println("6");
 		t = new TextField(CentralDatos.fotoDetalles.latitud + "");
 		t.setEditable(false);
 		detalles.addComponent(t);
