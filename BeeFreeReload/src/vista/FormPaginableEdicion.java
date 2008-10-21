@@ -1,7 +1,6 @@
 package vista;
 
 
-import logica.Bocadillo;
 import logica.CentralDatos;
 import logica.Constantes;
 

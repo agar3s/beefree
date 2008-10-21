@@ -7,8 +7,6 @@ import logica.CentralDatos;
 
 import com.sun.lwuit.Display;
 
-import conexion.ConectorRMS;
-
 public class MidletBeeFree extends MIDlet {
 	private static MidletBeeFree miMidletBeeFree;
 

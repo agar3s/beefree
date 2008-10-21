@@ -46,14 +46,14 @@ public class Paginador {
 
 		eventico = new ManejadorEventos();
 
-		setCurrent(Constantes.PRESENTACION_VIS);
+		setCurrent(Constantes.EXPLORAR_VIS);
 
 	}
 
 	public void setCurrent(byte next) {
 		resetButtons();
 		System.gc();
-		System.out.println("index: "+next);
+		System.out.println("index: " + next);
 		if (current != null) {
 			((IPaginable) current).destruir();
 		}
@@ -142,7 +142,7 @@ public class Paginador {
 			current = FormPaginableOpciones.getFormPaginableOpciones();
 			((FormPaginableOpciones) current).setFormCambiarContrasenia();
 
-			break;			
+			break;
 
 		case Constantes.DETALLES_BI_VIS:
 			current = FormPaginableVerDetalles.getFormPaginableVerDetalles();
@@ -165,9 +165,7 @@ public class Paginador {
 			break;
 
 		case Constantes.ADD_DETALLE_FOTO_VIS:
-			
-			
-			
+
 			current = FormPaginableVerDetalles.getFormPaginableVerDetalles();
 			((FormPaginableVerDetalles) current).setFormAgregarDetalles();
 			break;
@@ -222,11 +220,12 @@ public class Paginador {
 			((FormPaginableOpciones) current).setDetallesPerfilDeUsuario();
 			break;
 		}
-		
-		current.setTransitionInAnimator(CommonTransitions.createSlide(CommonTransitions.SLIDE_HORIZONTAL, !adelante, 600));
-		
-//		current.setTransitionInAnimator(Transition3D.createRotation(600,
-//				!adelante));
+
+		current.setTransitionInAnimator(CommonTransitions.createSlide(
+				CommonTransitions.SLIDE_HORIZONTAL, !adelante, 600));
+
+		// current.setTransitionInAnimator(Transition3D.createRotation(600,
+		// !adelante));
 
 		Constantes.VIS_CURRENT = next;
 		current.setCommandListener(eventico);

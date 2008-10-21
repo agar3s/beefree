@@ -162,9 +162,9 @@ public class ManejadorEventos implements ActionListener {
 				}
 				// editar perfil
 				else if (miBoton == Constantes.BOTONcuatro) {
-					
-					ManejadorConexiones.getManejadorConexiones().traerInfoPerfil();
-					
+
+					ManejadorConexiones.getManejadorConexiones()
+							.traerInfoPerfil();
 
 				}
 
@@ -180,7 +180,7 @@ public class ManejadorEventos implements ActionListener {
 
 			break;
 		case Constantes.PRIMERA_VEZ_CONTRA_VIS:
-			
+
 			if (e.getSource() instanceof Button) {
 				Button miBoton = (Button) e.getSource();
 
@@ -194,13 +194,12 @@ public class ManejadorEventos implements ActionListener {
 				Command comm = (Command) e.getSource();
 				if (comm.toString() == Constantes.ATRAS_COM) {
 					Paginador.getPaginador().adelante = false;
-					Paginador.getPaginador()
-							.setCurrent(Constantes.LOGIN_VIS);
+					Paginador.getPaginador().setCurrent(Constantes.LOGIN_VIS);
 				}
 			}
-			
+
 			break;
-			
+
 		case Constantes.CAMBIAR_CONTRASENIA_VIS:
 			if (e.getSource() instanceof Button) {
 				Button miBoton = (Button) e.getSource();
@@ -240,7 +239,7 @@ public class ManejadorEventos implements ActionListener {
 								"no se encontraron fotos en su movil", "ok",
 								null);
 					} else {
-						CentralDatos.buscar=true;
+						CentralDatos.buscar = true;
 						Paginador.getPaginador().setCurrent(
 								Constantes.RESULTADOS_MIS_IMAGENES_VIS);
 					}
@@ -284,9 +283,9 @@ public class ManejadorEventos implements ActionListener {
 				Button miBoton = (Button) e.getSource();
 				// TOMAR FOTOS
 				if (miBoton == Constantes.BOTONuno) {
-					
-					//ManejadorConexiones.getManejadorConexiones().descargarFoto();
-					
+
+					// ManejadorConexiones.getManejadorConexiones().descargarFoto();
+
 					((FormPaginableAyuda) Paginador.getPaginador().current).exenaActual = Constantes.AYUDA_TOMAR_VIS;
 				}
 				// BUSCAR FOTOS
@@ -331,19 +330,19 @@ public class ManejadorEventos implements ActionListener {
 
 					// se conecta y se pone los resultados en la central de
 					// datos
-					
+
 					AdministradorBusquedas.getAdministradorBusquedas()
 							.busquedaPerzonalizada();
 
-					if(CentralDatos.busquedaLocal){
+					if (CentralDatos.busquedaLocal) {
 						if (CentralDatos.resultadosBusqueda == null
 								|| CentralDatos.cantidadResultados == 0) {
 							Dialog.show("busqueda",
-									"no se encontraron fotos en su movil", "ok",
-									null);
+									"no se encontraron fotos en su movil",
+									"ok", null);
 						} else {
 							Paginador.getPaginador().adelante = true;
-							CentralDatos.buscar=true;
+							CentralDatos.buscar = true;
 							Paginador.getPaginador().setCurrent(
 									Constantes.RESULTADOS_BUSQUEDA_VIS);
 						}
@@ -366,7 +365,8 @@ public class ManejadorEventos implements ActionListener {
 			if (e.getSource() instanceof Command) {
 				Command comm = (Command) e.getSource();
 				if (comm.toString().compareTo(Constantes.DETALLES_COM) == 0) {
-					CentralDatos.fotoDetalles = CentralDatos.resultadosBusqueda[CentralDatos.indiceLista+((CentralDatos.factorDePantallas-1)*10)];
+					CentralDatos.fotoDetalles = CentralDatos.resultadosBusqueda[CentralDatos.indiceLista
+							+ ((CentralDatos.factorDePantallas - 1) * 10)];
 
 					Paginador.getPaginador().adelante = true;
 					Paginador.getPaginador().setCurrent(
@@ -377,13 +377,15 @@ public class ManejadorEventos implements ActionListener {
 							.setCurrent(Constantes.EXPLORAR_VIS);
 				} else if (comm.toString().compareTo(Constantes.ANTERIOR_COM) == 0) {
 					CentralDatos.factorDePantallas--;
-					((ListResultadosBusquedaRender) Paginador.getPaginador().current).repintarLista();
-					
+					((ListResultadosBusquedaRender) Paginador.getPaginador().current)
+							.repintarLista();
+
 				} else if (comm.toString().compareTo(Constantes.SIGUIENTE_COM) == 0) {
-					
+
 					CentralDatos.factorDePantallas++;
-					((ListResultadosBusquedaRender) Paginador.getPaginador().current).repintarLista();
-					
+					((ListResultadosBusquedaRender) Paginador.getPaginador().current)
+							.repintarLista();
+
 				}
 
 			}
@@ -395,28 +397,32 @@ public class ManejadorEventos implements ActionListener {
 				if (comm.toString().compareTo(Constantes.DETALLES_COM) == 0) {
 					Paginador.getPaginador().adelante = true;
 
-					CentralDatos.fotoDetalles = CentralDatos.resultadosBusqueda[CentralDatos.indiceLista+((CentralDatos.factorDePantallas-1)*10)];
+					CentralDatos.fotoDetalles = CentralDatos.resultadosBusqueda[CentralDatos.indiceLista
+							+ ((CentralDatos.factorDePantallas - 1) * 10)];
 
-					//FIXME
-					//Paginador.getPaginador().setCurrent(
-					//		Constantes.DETALLES_BI_VIS);
-					ManejadorConexiones.getManejadorConexiones().traerFotoPrevia();
+					// FIXME
+					// Paginador.getPaginador().setCurrent(
+					// Constantes.DETALLES_BI_VIS);
+					ManejadorConexiones.getManejadorConexiones()
+							.traerFotoPrevia();
 
 				} else if (comm.toString().compareTo(Constantes.ATRAS_COM) == 0) {
-				//	CentralDatos.resultadosBusqueda = null;
-				//	CentralDatos.cantidadResultados = 0;
+					// CentralDatos.resultadosBusqueda = null;
+					// CentralDatos.cantidadResultados = 0;
 					Paginador.getPaginador().adelante = false;
 					Paginador.getPaginador().setCurrent(
 							Constantes.BUSCAR_IMAGEN_VIS);
 				} else if (comm.toString().compareTo(Constantes.ANTERIOR_COM) == 0) {
 					CentralDatos.factorDePantallas--;
-					((ListResultadosBusquedaRender) Paginador.getPaginador().current).repintarLista();
-					
+					((ListResultadosBusquedaRender) Paginador.getPaginador().current)
+							.repintarLista();
+
 				} else if (comm.toString().compareTo(Constantes.SIGUIENTE_COM) == 0) {
-					
+
 					CentralDatos.factorDePantallas++;
-					((ListResultadosBusquedaRender) Paginador.getPaginador().current).repintarLista();
-					
+					((ListResultadosBusquedaRender) Paginador.getPaginador().current)
+							.repintarLista();
+
 				}
 
 			}
@@ -436,13 +442,15 @@ public class ManejadorEventos implements ActionListener {
 							Constantes.BUSCAR_COORD_MANUAL_VIS);
 				} else if (comm.toString().compareTo(Constantes.ANTERIOR_COM) == 0) {
 					CentralDatos.factorDePantallas--;
-					((ListResultadosBusquedaRender) Paginador.getPaginador().current).repintarLista();
-					
+					((ListResultadosBusquedaRender) Paginador.getPaginador().current)
+							.repintarLista();
+
 				} else if (comm.toString().compareTo(Constantes.SIGUIENTE_COM) == 0) {
-					
+
 					CentralDatos.factorDePantallas++;
-					((ListResultadosBusquedaRender) Paginador.getPaginador().current).repintarLista();
-					
+					((ListResultadosBusquedaRender) Paginador.getPaginador().current)
+							.repintarLista();
+
 				}
 
 			}
@@ -530,18 +538,19 @@ public class ManejadorEventos implements ActionListener {
 			break;
 
 		case Constantes.DETALLES_BI_VIS:
-			CentralDatos.guardando=false;
+			CentralDatos.guardando = false;
 			if (e.getSource() instanceof Command) {
 				Command comm = (Command) e.getSource();
 				if (comm.toString().compareTo(Constantes.ATRAS_COM) == 0) {
 					Paginador.getPaginador().adelante = false;
-					CentralDatos.buscar=false;
+					CentralDatos.buscar = false;
 					Paginador.getPaginador().setCurrent(
 							Constantes.RESULTADOS_BUSQUEDA_VIS);
 				} else if (comm.toString().compareTo(Constantes.GUARDAR_COM) == 0) {
-					CentralDatos.guardando=true;
-					//TODO aca se descarga una imagen de la red
-					ManejadorConexiones.getManejadorConexiones().descargarFoto();
+					CentralDatos.guardando = true;
+					// TODO aca se descarga una imagen de la red
+					ManejadorConexiones.getManejadorConexiones()
+							.descargarFoto();
 
 				} else if (comm.toString().compareTo(Constantes.ELIMINAR_COM) == 0) {
 					int resultado = DialogPaginable.getDialogPaginable()
@@ -551,25 +560,29 @@ public class ManejadorEventos implements ActionListener {
 						ConectorRMS rms = ConectorRMS.getConectorRMS();
 						rms.eliminarFotografia(CentralDatos.fotoDetalles);
 						CentralDatos.fotoDetalles = null;
-//						TODO probar en eliminar, q el item no salga en la lista
+						// TODO probar en eliminar, q el item no salga en la
+						// lista
 						Paginador.getPaginador().adelante = false;
-						CentralDatos.buscar=false;
+						CentralDatos.buscar = false;
 						Paginador.getPaginador().setCurrent(
 								Constantes.RESULTADOS_BUSQUEDA_VIS);
 					}
 				}
-			}if (e.getSource() instanceof Button) {
+			}
+			if (e.getSource() instanceof Button) {
 				Button button = (Button) e.getSource();
-				
-				if(button==Constantes.BOTONuno){
-					CentralDatos.guardando=false;
-					ManejadorConexiones.getManejadorConexiones().traerComentario();
-					
-				}else if(button==Constantes.BOTONdos){
-					ManejadorConexiones.getManejadorConexiones().enviarComentario();
-					
+
+				if (button == Constantes.BOTONuno) {
+					CentralDatos.guardando = false;
+					ManejadorConexiones.getManejadorConexiones()
+							.traerComentario();
+
+				} else if (button == Constantes.BOTONdos) {
+					ManejadorConexiones.getManejadorConexiones()
+							.enviarComentario();
+
 				}
-				
+
 			}
 			break;
 
@@ -578,9 +591,9 @@ public class ManejadorEventos implements ActionListener {
 				Command comm = (Command) e.getSource();
 				if (comm.toString().compareTo(Constantes.ATRAS_COM) == 0) {
 					Paginador.getPaginador().adelante = false;
-//					FIXME ojo aca.... tampoco buscar de nuevo
-					CentralDatos.buscar=false;
-					CentralDatos.busquedaLocal=false;
+					// FIXME ojo aca.... tampoco buscar de nuevo
+					CentralDatos.buscar = false;
+					CentralDatos.busquedaLocal = false;
 					Paginador.getPaginador().setCurrent(
 							Constantes.RESULTADOS_BUSQUEDA_COORD_VIS);
 				}
@@ -605,7 +618,7 @@ public class ManejadorEventos implements ActionListener {
 				Command comm = (Command) e.getSource();
 				if (comm.toString().compareTo(Constantes.ATRAS_COM) == 0) {
 					Paginador.getPaginador().adelante = false;
-					CentralDatos.buscar=false;
+					CentralDatos.buscar = false;
 					Paginador.getPaginador().setCurrent(
 							Constantes.RESULTADOS_MIS_IMAGENES_VIS);
 				} else if (comm.toString().compareTo(Constantes.EDITAR_COM) == 0) {
@@ -616,28 +629,31 @@ public class ManejadorEventos implements ActionListener {
 					int resultado = DialogPaginable.getDialogPaginable()
 							.setInfo(Constantes.CONF_ELIMINAR_FOTO_DIA);
 					if (resultado == 1) {
-						
-						CentralDatos.buscar=false;
+
+						CentralDatos.buscar = false;
 						ConectorRMS rms = ConectorRMS.getConectorRMS();
 						rms.eliminarFotografia(CentralDatos.fotoDetalles);
 						CentralDatos.fotoDetalles = null;
-						
+
 						Paginador.getPaginador().adelante = false;
 						Paginador.getPaginador().setCurrent(
 								Constantes.RESULTADOS_MIS_IMAGENES_VIS);
 					}
 
 				}
-			}if (e.getSource() instanceof Button) {
+			}
+			if (e.getSource() instanceof Button) {
 				Button button = (Button) e.getSource();
-				
-				if(button==Constantes.BOTONuno){
-					ManejadorConexiones.getManejadorConexiones().traerComentario();
-					
-				}else if(button==Constantes.BOTONdos){
-					ManejadorConexiones.getManejadorConexiones().enviarComentario();
+
+				if (button == Constantes.BOTONuno) {
+					ManejadorConexiones.getManejadorConexiones()
+							.traerComentario();
+
+				} else if (button == Constantes.BOTONdos) {
+					ManejadorConexiones.getManejadorConexiones()
+							.enviarComentario();
 				}
-				
+
 			}
 			break;
 
@@ -656,16 +672,16 @@ public class ManejadorEventos implements ActionListener {
 			if (e.getSource() instanceof Command) {
 				Command comm = (Command) e.getSource();
 				if (comm.toString().compareTo(Constantes.ATRAS_COM) == 0) {
-					
+
 					Paginador.getPaginador().adelante = false;
 					Paginador.getPaginador().setCurrent(Constantes.BEEFREE_VIS);
-					
+
 				} else if (comm.toString().compareTo(Constantes.GUARDAR_COM) == 0) {
 
 					Paginador.getPaginador().adelante = true;
 					if (CentralDatos.haveLocation) {
-						
-						CentralDatos.trajoLugares=false;
+
+						CentralDatos.trajoLugares = false;
 						ManejadorConexiones.getManejadorConexiones()
 								.obtenerGPS();
 
@@ -711,8 +727,8 @@ public class ManejadorEventos implements ActionListener {
 
 					if (datosCorrectos) {
 						ManejadorConexiones.getManejadorConexiones()
-						.enviarFoto();
-						
+								.enviarFoto();
+
 					} else {
 						Dialog
 								.show(
@@ -741,66 +757,72 @@ public class ManejadorEventos implements ActionListener {
 
 					FormPaginableVerDetalles detalles = (FormPaginableVerDetalles) Paginador
 							.getPaginador().current;
-					
-					CentralDatos.nuevoSitioTuristico=detalles.t.getText();
-					
+
+					CentralDatos.nuevoSitioTuristico = detalles.t.getText();
+
 					if (CentralDatos.nuevoSitioTuristico != null
 							&& CentralDatos.nuevoSitioTuristico.compareTo("") != 0) {
-					
-						if(detalles.citys.getModel().getSize()-1==detalles.citys.getSelectedIndex()){
-							//es otro
-							CentralDatos.nuevoCiudad=detalles.nvCity.getText();
-						
-							if(CentralDatos.nuevoCiudad != null
+
+						if (detalles.citys.getModel().getSize() - 1 == detalles.citys
+								.getSelectedIndex()) {
+							// es otro
+							CentralDatos.nuevoCiudad = detalles.nvCity
+									.getText();
+
+							if (CentralDatos.nuevoCiudad != null
 									&& CentralDatos.nuevoCiudad.compareTo("") != 0) {
-								String aux[]={CentralDatos.nuevoSitioTuristico};
-								Ciudad c=new Ciudad(CentralDatos.nuevoCiudad,aux);
-								
-								if(CentralDatos.ciudades==null){
-									CentralDatos.ciudades=new Ciudad[0];
+								String aux[] = { CentralDatos.nuevoSitioTuristico };
+								Ciudad c = new Ciudad(CentralDatos.nuevoCiudad,
+										aux);
+
+								if (CentralDatos.ciudades == null) {
+									CentralDatos.ciudades = new Ciudad[0];
 								}
-								
-								Ciudad auc[]=new Ciudad[CentralDatos.ciudades.length+1];
+
+								Ciudad auc[] = new Ciudad[CentralDatos.ciudades.length + 1];
 								for (int i = 0; i < CentralDatos.ciudades.length; i++) {
-									auc[i]=CentralDatos.ciudades[i];
+									auc[i] = CentralDatos.ciudades[i];
 								}
-								auc[auc.length-1]=c;
-								CentralDatos.ciudades=auc;
-								
+								auc[auc.length - 1] = c;
+								CentralDatos.ciudades = auc;
+
 								Paginador.getPaginador().adelante = false;
 								Paginador.getPaginador().setCurrent(
 										Constantes.ADD_DETALLE_FOTO_VIS);
-								
-							}else{
-								Dialog.show("Ciudad Erronea",
-										"El campo de ciudad no puede estar vacio",
-										"ok", null);
+
+							} else {
+								Dialog
+										.show(
+												"Ciudad Erronea",
+												"El campo de ciudad no puede estar vacio",
+												"ok", null);
 							}
-							
-						}else{
-							
-							CentralDatos.nuevoCiudad=detalles.citys.getSelectedItem().toString();
-							
-							int indice=detalles.citys.getSelectedIndex();
-							String[] sitios=CentralDatos.ciudades[indice].sitioTuristico;
-							String[] aux=new String[sitios.length+1];
-							
+
+						} else {
+
+							CentralDatos.nuevoCiudad = detalles.citys
+									.getSelectedItem().toString();
+
+							int indice = detalles.citys.getSelectedIndex();
+							String[] sitios = CentralDatos.ciudades[indice].sitioTuristico;
+							String[] aux = new String[sitios.length + 1];
+
 							for (int i = 0; i < sitios.length; i++) {
-								aux[i]=sitios[i];
+								aux[i] = sitios[i];
 							}
-							
-							aux[aux.length-1]=CentralDatos.nuevoSitioTuristico;
-							CentralDatos.ciudades[indice].sitioTuristico=aux;
-							
+
+							aux[aux.length - 1] = CentralDatos.nuevoSitioTuristico;
+							CentralDatos.ciudades[indice].sitioTuristico = aux;
+
 							Paginador.getPaginador().adelante = false;
 							Paginador.getPaginador().setCurrent(
 									Constantes.ADD_DETALLE_FOTO_VIS);
 						}
-						
+
 					} else {
 						Dialog.show("Lugar Erroneo",
-								"El campo de nuevo no puede estar vacio",
-								"ok", null);
+								"El campo de nuevo no puede estar vacio", "ok",
+								null);
 					}
 				}
 			}
@@ -859,9 +881,7 @@ public class ManejadorEventos implements ActionListener {
 					Calendar c = Calendar.getInstance(TimeZone.getDefault());
 					CentralDatos.fechaActualFotoPrevia = c.getTime().getTime();
 
-					
 					ManejadorConexiones.getManejadorConexiones().traerLugares();
-					
 
 				}
 
@@ -902,7 +922,7 @@ public class ManejadorEventos implements ActionListener {
 				} else if (comm.toString().compareTo(Constantes.ACEPTAR_COM) == 0) {
 					// OBtener Coordenadas y el radio de busqueda y filtrar
 					Paginador.getPaginador().adelante = true;
-					CentralDatos.buscar=true;
+					CentralDatos.buscar = true;
 					Paginador.getPaginador().setCurrent(
 							Constantes.RESULTADOS_BUSQUEDA_COORD_VIS);
 				}
