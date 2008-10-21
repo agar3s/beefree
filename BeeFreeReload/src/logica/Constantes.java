@@ -103,5 +103,6 @@ public class Constantes {
 	public static final String HTTP_ENVIAR_COMMENT = "agregarcomentario.php";
 	public static final String HTTP_COMPLETA = "completa.php";
 	public static final String HTTP_LOCATION_SEARCH2 = "locationsearch2.php";
+	public static final String HTTP_BUSCAR_COORD = "locationsearch3.php";
 
 }

@@ -30,6 +30,7 @@ public class PreLoader implements ICliente, ICargable, Runnable{
 	}
 	
 	public static PreLoader getPreloader(){
+		//XXX cuarta parte de la carga
 		
 		if(miPreLoader==null)
 			miPreLoader= new PreLoader();
@@ -37,15 +38,20 @@ public class PreLoader implements ICliente, ICargable, Runnable{
 	}
 
 	public void actualizar() {
+		///XXX QUINTA opcion
 		System.out.println("actualizada "+Constantes.VIS_CURRENT);
 		System.out.println("busquedas: "+CentralDatos.buscar+" "+CentralDatos.busquedaLocal);
 		switch(Constantes.VIS_CURRENT){
 			case Constantes.BUSCAR_IMAGEN_VIS:
-				System.out.println("HP!!!!!");
+				System.out.println("HP!!!!!"); 
 				//Dialog.show("Actualizar", "entro a la linea 44", "ok",null);
 				System.out.println("5 entro perfecto");
 				Paginador.getPaginador().setCurrent(Constantes.RESULTADOS_BUSQUEDA_VIS);
 			break;
+			case Constantes.BUSCAR_COORD_MANUAL_VIS:
+				//Dialog.show("Actualizar", "entro a la linea 44", "ok",null);
+				Paginador.getPaginador().setCurrent(Constantes.RESULTADOS_BUSQUEDA_COORD_VIS);
+				break;
 			default:
 				System.out.println("5 no entro perfecto "+Constantes.VIS_CURRENT+ " "+Constantes.BUSCAR_IMAGEN_VIS);
 				break;
@@ -64,9 +70,11 @@ public class PreLoader implements ICliente, ICargable, Runnable{
 	}
 
 	public void setDatos() {
+		//XXX Cuarta parte iterativo
 		System.out.println("index de busqueda: "+index+" d "+CentralDatos.cantidadResultados);
+		//Dialog.show("seteo de datos", "index de busqueda: "+index+ " de "+CentralDatos.cantidadResultados, "ok",null);
 		index++;
-		if(index==0)
+		if(index==1)
 			DialogCargando.getDialogCargando().showModeless();
 		if(index<CentralDatos.cantidadResultados){
 			URL= CentralDatos.resultadosBusqueda[index].URL;
@@ -85,6 +93,7 @@ public class PreLoader implements ICliente, ICargable, Runnable{
 			hilo= new Thread(this);
 			hilo.start();
 		}else{
+			//Dialog.show("Termino el seteo de datos!", ":D: ", "ok",null);
 			terminado=true;
 		}
 	}
@@ -93,6 +102,7 @@ public class PreLoader implements ICliente, ICargable, Runnable{
 		HttpConnection hc;
 		try {
 			hc = (HttpConnection) Connector.open(Constantes.HTTP+URL, Connector.READ_WRITE);
+			//Dialog.show("antes del query", "URL de descarga: "+Constantes.HTTP+URL, "ok",null);
 			System.out.println(Constantes.HTTP+URL);
 			// Informamos del tipo de petición que vamos a efectuar
 			hc.setRequestMethod(HttpConnection.GET);
@@ -100,7 +110,7 @@ public class PreLoader implements ICliente, ICargable, Runnable{
 			if (CentralDatos.cookie != null) {
 				hc.setRequestProperty("cookie", CentralDatos.cookie);
 			}else{
-				Dialog.show("cookie null!", "debe loguearse en el sistema", "ok",null);
+				Dialog.show("cookie null!", ":S:", "ok",null);
 			}
 			// Establecemos algunos campos de cabecera
 			hc.setRequestProperty("User-Agent",

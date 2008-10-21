@@ -7,6 +7,7 @@ import javax.microedition.media.MediaException;
 import javax.microedition.media.Player;
 import javax.microedition.media.control.VideoControl;
 
+import vista.DialogCargando;
 import vista.DialogPaginable;
 import vista.FormPaginableAyuda;
 import vista.FormPaginableInicio;
@@ -425,12 +426,16 @@ public class ManejadorEventos implements ActionListener {
 
 		case Constantes.RESULTADOS_BUSQUEDA_COORD_VIS:
 			if (e.getSource() instanceof Command) {
+				// XXX
 				Command comm = (Command) e.getSource();
 				if (comm.toString().compareTo(Constantes.DETALLES_COM) == 0) {
 					Paginador.getPaginador().adelante = true;
+					CentralDatos.fotoDetalles = CentralDatos.resultadosBusqueda[CentralDatos.indiceLista
+							+ ((CentralDatos.factorDePantallas - 1) * 10)];
 
-					Paginador.getPaginador().setCurrent(
-							Constantes.DETALLES_COORD_VIS);
+					ManejadorConexiones.getManejadorConexiones()
+							.traerFotoPrevia();
+
 				} else if (comm.toString().compareTo(Constantes.ATRAS_COM) == 0) {
 					Paginador.getPaginador().adelante = false;
 					Paginador.getPaginador().setCurrent(
@@ -854,10 +859,11 @@ public class ManejadorEventos implements ActionListener {
 							.setCurrent(Constantes.EXPLORAR_VIS);
 				} else if (comm.toString().compareTo(Constantes.DETALLES_COM) == 0) {
 
-				//	Paginador.getPaginador().adelante = true;
-				//	Paginador.getPaginador().setCurrent(
-				//			Constantes.DETALLES_GM_VIS);
-					ManejadorConexiones.getManejadorConexiones().traerFotoPrevia();
+					// Paginador.getPaginador().adelante = true;
+					// Paginador.getPaginador().setCurrent(
+					// Constantes.DETALLES_GM_VIS);
+					ManejadorConexiones.getManejadorConexiones()
+							.traerFotoPrevia();
 				}
 
 			}
@@ -916,10 +922,11 @@ public class ManejadorEventos implements ActionListener {
 							.setCurrent(Constantes.EXPLORAR_VIS);
 				} else if (comm.toString().compareTo(Constantes.ACEPTAR_COM) == 0) {
 					// OBtener Coordenadas y el radio de busqueda y filtrar
-					Paginador.getPaginador().adelante = true;
+					// Paginador.getPaginador().adelante = true;
 					CentralDatos.buscar = true;
-					Paginador.getPaginador().setCurrent(
-							Constantes.RESULTADOS_BUSQUEDA_COORD_VIS);
+					// Paginador.getPaginador().setCurrent(
+					// Constantes.RESULTADOS_BUSQUEDA_COORD_VIS);
+					ManejadorConexiones.getManejadorConexiones().buscarCoord();
 				}
 			}
 			break;
