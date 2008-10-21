@@ -854,9 +854,10 @@ public class ManejadorEventos implements ActionListener {
 							.setCurrent(Constantes.EXPLORAR_VIS);
 				} else if (comm.toString().compareTo(Constantes.DETALLES_COM) == 0) {
 
-					Paginador.getPaginador().adelante = true;
-					Paginador.getPaginador().setCurrent(
-							Constantes.DETALLES_GM_VIS);
+				//	Paginador.getPaginador().adelante = true;
+				//	Paginador.getPaginador().setCurrent(
+				//			Constantes.DETALLES_GM_VIS);
+					ManejadorConexiones.getManejadorConexiones().traerFotoPrevia();
 				}
 
 			}
