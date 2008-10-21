@@ -7,7 +7,6 @@ import logica.foto.Foto;
 import com.sun.lwuit.Command;
 import com.sun.lwuit.Component;
 import com.sun.lwuit.Container;
-import com.sun.lwuit.Dialog;
 import com.sun.lwuit.Form;
 import com.sun.lwuit.Image;
 import com.sun.lwuit.Label;

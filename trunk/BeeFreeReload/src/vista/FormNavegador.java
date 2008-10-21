@@ -6,6 +6,7 @@ import javax.microedition.lcdui.Canvas;
 
 import logica.CentralDatos;
 import logica.Constantes;
+import logica.StringTokenizer;
 
 import com.sun.lwuit.Command;
 import com.sun.lwuit.Form;
@@ -39,6 +40,14 @@ public class FormNavegador extends Form implements Runnable, IPaginable,
 	double radioBusqueda = 1;
 	boolean buscando = false;
 
+	/** variables para la exploracion libre */
+	private boolean vistaLibre = false;
+	private int nRes = 0;
+	private double reslat[];
+	private double reslong[];
+	private int resnid[];
+	/***/
+
 	private static FormNavegador miFormNavegador;
 	private StaticAnimation cursor;
 
@@ -55,16 +64,17 @@ public class FormNavegador extends Form implements Runnable, IPaginable,
 
 	public void show() {
 		super.show();
-		
-		if(consulta==DialogCargando.CONEXION_GPS){
+
+		if (consulta == DialogCargando.CONEXION_GPS) {
 			DialogCargando.getDialogCargando().showModeless();
-		}else if(consulta== DialogCargando.CONEXION_GOOGLE_MAP){
-			
+		} else if (consulta == DialogCargando.CONEXION_GOOGLE_MAP) {
+
 		}
 	}
 
 	private FormNavegador() {
 		try {
+			vistaLibre = false;
 			isCorriendo = true;
 			Thread hilo = new Thread(this);
 			hilo.start();
@@ -107,22 +117,42 @@ public class FormNavegador extends Form implements Runnable, IPaginable,
 					CentralDatos.viewPortY);
 
 			int t = cont;
-			
+
 			if (buscando) {
 				g.drawArc((int) (x - radioBusqueda), (int) (y - radioBusqueda),
-						(int) (radioBusqueda * 2), (int) (radioBusqueda * 2), 0,
-						360);
+						(int) (radioBusqueda * 2), (int) (radioBusqueda * 2),
+						0, 360);
 				g.setColor(0X127699);
-				
+
 			}
 			g.drawArc(x - t, y - t, t * 2, t * 2, 0, 360);
 			g.setColor(0X00000);
 			g.drawArc(x - t - 1, y - t - 1, t * 2 + 2, t * 2 + 2, 0, 360);
-			
+
 			t = cont / 2;
 			g.drawArc(x - t, y - t, t * 2, t * 2, 0, 360);
 			g.setColor(0X00000);
 			g.drawArc(x - t - 1, y - t - 1, t * 2 + 2, t * 2 + 2, 0, 360);
+
+			if (vistaLibre) {
+				// int xres;
+				// int yres;
+				int color = 0X000000;
+				for (int i = 0; i < nRes; i++) {
+					// xres=(int)
+					// ((Math.abs(reslong[i])-Math.abs(CentralDatos.longitud))/UDLongitud);
+					// yres=(int)
+					// ((Math.abs(reslat[i])-Math.abs(CentralDatos.latitud))/UDLongitud);
+					g.setColor(color + (0XFFFFF / nRes) * i);
+					g
+							.fillArc(
+									(int) (CentralDatos.viewPortX + reslong[i] - CentralDatos.zoom / 2),
+									(int) (CentralDatos.viewPortY + reslat[i] - CentralDatos.zoom / 2),
+									CentralDatos.zoom, CentralDatos.zoom, 0,
+									360);
+				}
+			}
+
 			if (cursor != null) {
 				g.drawImage(cursor, (x - cursor.getWidth() / 2), (y - cursor
 						.getHeight()));
@@ -132,7 +162,7 @@ public class FormNavegador extends Form implements Runnable, IPaginable,
 			g.setColor(0XFFFFFF);
 			g.fillRect(0, 0, getWidth(), getHeight());
 			g.setColor(0X000000);
-			g.drawString("Cargando mapa", x-50, y);
+			g.drawString("Cargando mapa", x - 50, y);
 
 		}
 
@@ -140,7 +170,7 @@ public class FormNavegador extends Form implements Runnable, IPaginable,
 
 	public void keyPressed(int keyCode) {
 		super.keyPressed(keyCode);
-		if (!desplazar&&CentralDatos.imagenMapa!=null) {
+		if (!desplazar && CentralDatos.imagenMapa != null) {
 			if (keyCode == -3) {
 				CentralDatos.longitud = CentralDatos.longitud - UDLongitud * 5;
 				if (x > getWidth() / 2) {
@@ -283,7 +313,7 @@ public class FormNavegador extends Form implements Runnable, IPaginable,
 	}
 
 	public void setFormNavegar() {
-
+		vistaLibre = true;
 		consulta = DialogCargando.CONEXION_GPS;
 		DialogCargando.getDialogCargando().iniciarCarga(this, consulta, null,
 				null);
@@ -302,7 +332,7 @@ public class FormNavegador extends Form implements Runnable, IPaginable,
 
 	public void setFormNavegarManual() {
 		System.out.println("1");
-		if(CentralDatos.imagenMapa==null)
+		if (CentralDatos.imagenMapa == null)
 			iniciarGrilla(true);
 		addCommand(new Command(Constantes.ATRAS_COM));
 		addCommand(new Command(Constantes.ACEPTAR_COM));
@@ -378,26 +408,79 @@ public class FormNavegador extends Form implements Runnable, IPaginable,
 	}
 
 	public void actualizar() {
-		if(consulta== DialogCargando.CONEXION_GPS){
+		if (consulta == DialogCargando.CONEXION_GPS) {
 			iniciarGrilla(true);
-		}else if(consulta==DialogCargando.CONEXION_GOOGLE_MAP){
-			cargando= false;
+		} else if (consulta == DialogCargando.CONEXION_GOOGLE_MAP) {
+			cargando = false;
+
+			if (vistaLibre) {
+				consulta = DialogCargando.CONEXION_HTTP_POST;
+				DialogCargando.getDialogCargando().iniciarCarga(
+						this,
+						consulta,
+						Constantes.HTTP + Constantes.HTTP_LOCATION_SEARCH2,
+						"lat=" + CentralDatos.latitud + "&lon="
+								+ CentralDatos.longitud);
+			} else {
+				show();
+			}
+		} else if (consulta == DialogCargando.CONEXION_HTTP_POST) {
+			System.out.println("to logn: " + CentralDatos.respuesta);
+			if (CentralDatos.respuesta != null
+					&& CentralDatos.respuesta.compareTo("") != 0) {
+				StringTokenizer tok = new StringTokenizer(
+						CentralDatos.respuesta, ";");
+				nRes = tok.tokens - 1;
+				reslat = new double[nRes];
+				reslong = new double[nRes];
+				resnid = new int[nRes];
+
+				int i = 0;
+				while (i < tok.tokens - 1) {
+					StringTokenizer res = new StringTokenizer(
+							tok.nextElement(), "::");
+					resnid[i] = Integer.parseInt(res.nextElement());
+
+					reslat[i] = Double.parseDouble(res.nextElement());
+					reslat[i] = CentralDatos.altoImagen
+							/ 2
+							- ((Math.abs(reslat[i]) - Math
+									.abs(CentralDatos.latitud)) / UDLongitud);
+
+					reslong[i] = Double.parseDouble(res.nextElement());
+					reslong[i] = CentralDatos.anchoImagen
+							/ 2
+							- ((Math.abs(reslong[i]) - Math
+									.abs(CentralDatos.longitud)) / UDLongitud);
+
+					// System.out.println(reslat[i]+":"+reslong[i]);
+					i++;
+
+				}
+				System.out.println("i: " + i);
+			} else {
+				nRes = 0;
+				reslat = new double[nRes];
+				reslong = new double[nRes];
+				resnid = new int[nRes];
+			}
+			consulta = -1;
 			show();
 		}
-//		if (consulta == DialogCargando.CONEXION_GPS) {
-//			System.out.println("GPS consulta");
-//			if (CentralDatos.haveGPS) {
-//				// CentralDatos.longitud;
-//				// CentralDatos.latitud;
-//			}
-//			iniciarGrilla(true);
-//		} else {
-//			System.out.println("image consulta");
-//			consulta=0;
-//		}
-		//cargando = false;
-//		repaint();
-		//show();
+		// if (consulta == DialogCargando.CONEXION_GPS) {
+		// System.out.println("GPS consulta");
+		// if (CentralDatos.haveGPS) {
+		// // CentralDatos.longitud;
+		// // CentralDatos.latitud;
+		// }
+		// iniciarGrilla(true);
+		// } else {
+		// System.out.println("image consulta");
+		// consulta=0;
+		// }
+		// cargando = false;
+		// repaint();
+		// show();
 	}
 
 	public void realizarPeticion() {
