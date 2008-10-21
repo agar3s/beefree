@@ -400,15 +400,10 @@ public class ManejadorEventos implements ActionListener {
 					CentralDatos.fotoDetalles = CentralDatos.resultadosBusqueda[CentralDatos.indiceLista
 							+ ((CentralDatos.factorDePantallas - 1) * 10)];
 
-					// FIXME
-					// Paginador.getPaginador().setCurrent(
-					// Constantes.DETALLES_BI_VIS);
 					ManejadorConexiones.getManejadorConexiones()
 							.traerFotoPrevia();
 
 				} else if (comm.toString().compareTo(Constantes.ATRAS_COM) == 0) {
-					// CentralDatos.resultadosBusqueda = null;
-					// CentralDatos.cantidadResultados = 0;
 					Paginador.getPaginador().adelante = false;
 					Paginador.getPaginador().setCurrent(
 							Constantes.BUSCAR_IMAGEN_VIS);
@@ -548,7 +543,6 @@ public class ManejadorEventos implements ActionListener {
 							Constantes.RESULTADOS_BUSQUEDA_VIS);
 				} else if (comm.toString().compareTo(Constantes.GUARDAR_COM) == 0) {
 					CentralDatos.guardando = true;
-					// TODO aca se descarga una imagen de la red
 					ManejadorConexiones.getManejadorConexiones()
 							.descargarFoto();
 

@@ -286,14 +286,12 @@ public class ManejadorConexiones implements ICliente {
 				Paginador.getPaginador().setCurrent(Constantes.BEEFREE_VIS);
 
 			} catch (Exception e) {
-//				XXX la respuesta esta mal....
 				ConectorRMS.getConectorRMS().guardarIDFotosNoEnviadas();
 				
 				Dialog.show("error con el nid", nid + " la respuesta no fue enviada, se guardo en rms para un envio posterior "
 						+ e.getMessage(), "ok", null);
 			}
 			
-//			Dialog.show("envio realizado", "envio realizado con exito", "ok", null);
 
 			break;
 
@@ -319,9 +317,7 @@ public class ManejadorConexiones implements ICliente {
 
 		case Constantes.BUSCAR_IMAGEN_VIS:
 			
-			//XXX tercera parte de la conexion
 			System.out.println("CentralDatos.respuesta");
-			//Dialog.show("Resultado ", CentralDatos.respuesta, "ok",null);
 			if(CentralDatos.respuesta.charAt(0)!='D'){
 				CentralDatos.guardando=false;
 				CentralDatos.respuesta= CentralDatos.respuesta.substring(0, CentralDatos.respuesta.length()-2);
@@ -362,7 +358,6 @@ public class ManejadorConexiones implements ICliente {
 			
 			break;
 		case Constantes.DETALLES_MIS_IMAGENES_VIS:
-			Dialog.show("respuesta", CentralDatos.respuesta, "ok",null);
 			if(CentralDatos.guardando){
 				System.out.println("Guarde la foto!!");
 			}else{
@@ -406,7 +401,6 @@ public class ManejadorConexiones implements ICliente {
 			break;
 			
 		case Constantes.RESULTADOS_BUSQUEDA_VIS:
-			System.out.println("preview? "+CentralDatos.traidaPreview);
 			if(CentralDatos.traidaPreview){
 				Paginador.getPaginador().adelante = true;
 				Paginador.getPaginador().setCurrent(Constantes.DETALLES_BI_VIS);
@@ -648,18 +642,14 @@ public class ManejadorConexiones implements ICliente {
 	}
 
 	public void descargarFoto() {
-//		TODO ojo con foto detalles.!!
 		if(Constantes.VIS_CURRENT==Constantes.RESULTADOS_BUSQUEDA_VIS){
 			DialogCargando.getDialogCargando().iniciarCarga(this,DialogCargando.CONEXION_DOWNLOAD, Constantes.HTTP+CentralDatos.fotoDetalles.URL,null);
 		}else{
 			DialogCargando.getDialogCargando().iniciarCarga(this,DialogCargando.CONEXION_DOWNLOAD, Constantes.HTTP+CentralDatos.fotoDetalles.URL,null);
 		}
-		//DialogCargando.getDialogCargando().iniciarCarga(this, DialogCargando.CONEXION_HTTP_POST, "http://www.informit.com/display/InformIT/images/header/informit.png", "");		
 	}
 
 	public void buscarWeb(String busq, int crit) {
-		//XXX segunda parte de la conexion
-		System.out.println("buscando web");
 		CentralDatos.traidaPreview=false;
 		DialogCargando.getDialogCargando().iniciarCarga(this, DialogCargando.CONEXION_HTTP_POST,Constantes.HTTP+Constantes.HTTP_BUSCAR ,"busq="+busq+"&crit="+crit );
 	}
@@ -689,7 +679,6 @@ public class ManejadorConexiones implements ICliente {
 					+ "&timestamp=" + System.currentTimeMillis() + "&subje="
 					+ tit + "&comentario=" + coment + "&uid="
 					+ CentralDatos.UID + "&name=" + CentralDatos.loginActual;
-			// TODO quitar dialog
 
 			DialogCargando.getDialogCargando().iniciarCarga(this,
 					DialogCargando.CONEXION_HTTP_POST,

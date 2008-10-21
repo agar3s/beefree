@@ -30,7 +30,6 @@ public class PreLoader implements ICliente, ICargable, Runnable{
 	}
 	
 	public static PreLoader getPreloader(){
-		//XXX cuarta parte de la carga
 		
 		if(miPreLoader==null)
 			miPreLoader= new PreLoader();
@@ -38,7 +37,6 @@ public class PreLoader implements ICliente, ICargable, Runnable{
 	}
 
 	public void actualizar() {
-		///XXX QUINTA opcion
 		System.out.println("actualizada "+Constantes.VIS_CURRENT);
 		System.out.println("busquedas: "+CentralDatos.buscar+" "+CentralDatos.busquedaLocal);
 		switch(Constantes.VIS_CURRENT){
@@ -66,9 +64,7 @@ public class PreLoader implements ICliente, ICargable, Runnable{
 	}
 
 	public void setDatos() {
-		//XXX Cuarta parte iterativo
 		System.out.println("index de busqueda: "+index+" d "+CentralDatos.cantidadResultados);
-		//Dialog.show("seteo de datos", "index de busqueda: "+index+ " de "+CentralDatos.cantidadResultados, "ok",null);
 		index++;
 		if(index==0)
 			DialogCargando.getDialogCargando().showModeless();
@@ -89,7 +85,6 @@ public class PreLoader implements ICliente, ICargable, Runnable{
 			hilo= new Thread(this);
 			hilo.start();
 		}else{
-			//Dialog.show("Termino el seteo de datos!", ":D: ", "ok",null);
 			terminado=true;
 		}
 	}
@@ -98,7 +93,6 @@ public class PreLoader implements ICliente, ICargable, Runnable{
 		HttpConnection hc;
 		try {
 			hc = (HttpConnection) Connector.open(Constantes.HTTP+URL, Connector.READ_WRITE);
-			//Dialog.show("antes del query", "URL de descarga: "+Constantes.HTTP+URL, "ok",null);
 			System.out.println(Constantes.HTTP+URL);
 			// Informamos del tipo de petición que vamos a efectuar
 			hc.setRequestMethod(HttpConnection.GET);
@@ -106,7 +100,7 @@ public class PreLoader implements ICliente, ICargable, Runnable{
 			if (CentralDatos.cookie != null) {
 				hc.setRequestProperty("cookie", CentralDatos.cookie);
 			}else{
-				Dialog.show("cookie null!", ":S:", "ok",null);
+				Dialog.show("cookie null!", "debe loguearse en el sistema", "ok",null);
 			}
 			// Establecemos algunos campos de cabecera
 			hc.setRequestProperty("User-Agent",

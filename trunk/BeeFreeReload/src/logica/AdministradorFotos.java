@@ -102,7 +102,7 @@ public class AdministradorFotos {
 		
 		System.gc();
 		return true;
-		}catch (NullPointerException e) {
+		}catch (Exception e) {
 			System.gc();
 			Dialog.show("error", "no es posible guardar la imagen, debe asociarla a una ciudad y a un sitio turistico", "ok",null);
 			return false;

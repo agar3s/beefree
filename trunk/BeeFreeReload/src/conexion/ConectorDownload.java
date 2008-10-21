@@ -131,7 +131,6 @@ public class ConectorDownload implements Runnable, ICargable{
 	}
 
 	public void setDatos() {
-//		TODO llenar foto detalles en la conexion!!
 		if(Constantes.VIS_CURRENT==Constantes.DETALLES_BI_VIS ){
 			Foto temp=CentralDatos.fotoDetalles;
 	

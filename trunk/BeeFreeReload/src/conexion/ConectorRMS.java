@@ -224,7 +224,6 @@ public class ConectorRMS {
 			try {
 //				re = rsFoto.enumerateRecords(new FiltroBusquedaLocal(
 //						criterioBusqueda, "misFotos"), null, true);
-//XXX busca todas lsa fotos no solo las mias				
 				CentralDatos.busquedaLocal = true;
 				re = rsFoto.enumerateRecords(null, null, true);
 			} catch (RecordStoreNotOpenException e) {
