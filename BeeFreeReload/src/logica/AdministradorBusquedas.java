@@ -67,7 +67,6 @@ public class AdministradorBusquedas {
 				} else {			// sitio turistico
 					crit=3;
 				}
-				//XXX primera parte
 				ManejadorConexiones.getManejadorConexiones().buscarWeb(CentralDatos.criterioBusqueda,crit);
 
 			}

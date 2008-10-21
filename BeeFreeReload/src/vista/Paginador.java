@@ -46,7 +46,7 @@ public class Paginador {
 
 		eventico = new ManejadorEventos();
 
-		setCurrent(Constantes.EXPLORAR_VIS);
+		setCurrent(Constantes.PRESENTACION_VIS);
 
 	}
 
