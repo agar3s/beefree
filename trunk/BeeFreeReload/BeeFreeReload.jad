@@ -1,9 +1,9 @@
-MIDlet-Version: 1.0.0
-MIDlet-Vendor: I.guana mobile solutions
-MIDlet-Jar-URL: BeeFreeReload.jar
-MIDlet-Permissions: javax.microedition.io
-MIDlet-Permissions-Opt: javax.microedition.io.PushRegistry,javax.microedition.media.control.VideoControl.getSnapshot,javax.wireless.messaging.sms.receive,javax.wireless.messaging.sms.send
-MicroEdition-Configuration: CLDC-1.1
-MicroEdition-Profile: MIDP-2.0
 MIDlet-1: beeFree,bfd.png,vista.MidletBeeFree
+MIDlet-Jar-URL: BeeFreeReload.jar
+MIDlet-Permissions-Opt: 
+MicroEdition-Configuration: CLDC-1.1
+MIDlet-Version: 1.0.0
 MIDlet-Name: BeeFreeReload Midlet Suite
+MIDlet-Vendor: I.guana mobile solutions
+MicroEdition-Profile: MIDP-2.0
+MIDlet-Permissions: javax.microedition.io,javax.microedition.io.PushRegistry,javax.microedition.media.control.VideoControl.getSnapshot,javax.wireless.messaging.sms.receive,javax.wireless.messaging.sms.send

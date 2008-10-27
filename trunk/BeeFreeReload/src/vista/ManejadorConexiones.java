@@ -3,6 +3,7 @@ package vista;
 import java.util.Calendar;
 import java.util.TimeZone;
 
+
 import com.sun.lwuit.ComboBox;
 import com.sun.lwuit.Container;
 import com.sun.lwuit.Dialog;
@@ -422,6 +423,105 @@ public class ManejadorConexiones implements ICliente {
 			
 			break;
 			
+			
+		case Constantes.BUSCAR_COORD_MANUAL_VIS:
+			System.out.println("CentralDatos.respuesta");
+			// Dialog.show("Resultado ", CentralDatos.respuesta, "ok",null);
+			if (CentralDatos.respuesta.charAt(0) != 'D') {
+				CentralDatos.guardando = false;
+				CentralDatos.respuesta = CentralDatos.respuesta.substring(0,
+						CentralDatos.respuesta.length() - 2);
+				StringTokenizer tok = new StringTokenizer(
+						CentralDatos.respuesta, "><");
+
+				CentralDatos.cantidadResultados = tok.tokens;
+				CentralDatos.resultadosBusqueda = new Foto[CentralDatos.cantidadResultados];
+
+				int i = 0;
+				Foto foto;
+				StringTokenizer datos;
+				nid = 0;
+				String nombre = "";
+				String url = "";
+				String ciudad = "";
+				String sitio = "";
+
+				while (tok.hasNext()) {
+					datos = new StringTokenizer(tok.nextElement(), "+@");
+
+					nid = Integer.parseInt(datos.nextElement());
+					nombre = datos.nextElement();
+					url = datos.nextElement();
+					ciudad = datos.nextElement();
+					sitio = datos.nextElement();
+
+					foto = new Foto(nombre, sitio, ciudad, null, null, null, 0,
+							0, 0, false, false, 0, null, nid);
+					foto.URL = url;
+					System.out.println(foto.URL);
+					CentralDatos.resultadosBusqueda[i] = foto;
+					i++;
+				}
+
+				DialogCargando.getDialogCargando().iniciarCarga(
+						PreLoader.getPreloader(),
+						DialogCargando.CONEXION_PREVIEWS, null, null);
+			} else {
+				Dialog.show("No hay resultados",
+						"Por favor intente con otra palabra.", "ok", null);
+			}
+			
+			break;
+			
+		case Constantes.BUSCAR_COORD_MANUAL_VIS:
+			System.out.println("CentralDatos.respuesta");
+			// Dialog.show("Resultado ", CentralDatos.respuesta, "ok",null);
+			if (CentralDatos.respuesta.charAt(0) != 'D') {
+				CentralDatos.guardando = false;
+				CentralDatos.respuesta = CentralDatos.respuesta.substring(0,
+						CentralDatos.respuesta.length() - 2);
+				StringTokenizer tok = new StringTokenizer(
+						CentralDatos.respuesta, "><");
+
+				CentralDatos.cantidadResultados = tok.tokens;
+				CentralDatos.resultadosBusqueda = new Foto[CentralDatos.cantidadResultados];
+
+				int i = 0;
+				Foto foto;
+				StringTokenizer datos;
+				nid = 0;
+				String nombre = "";
+				String url = "";
+				String ciudad = "";
+				String sitio = "";
+
+				while (tok.hasNext()) {
+					datos = new StringTokenizer(tok.nextElement(), "+@");
+
+					nid = Integer.parseInt(datos.nextElement());
+					nombre = datos.nextElement();
+					url = datos.nextElement();
+					ciudad = datos.nextElement();
+					sitio = datos.nextElement();
+
+					foto = new Foto(nombre, sitio, ciudad, null, null, null, 0,
+							0, 0, false, false, 0, null, nid);
+					foto.URL = url;
+					System.out.println(foto.URL);
+					CentralDatos.resultadosBusqueda[i] = foto;
+					i++;
+				}
+
+				DialogCargando.getDialogCargando().iniciarCarga(
+						PreLoader.getPreloader(),
+						DialogCargando.CONEXION_PREVIEWS, null, null);
+			} else {
+				Dialog.show("No hay resultados",
+						"Por favor intente con otra palabra.", "ok", null);
+			}
+			
+			break;
+			
 		case Constantes.DETALLES_MIS_IMAGENES_VIS:
 			if(CentralDatos.guardando){
 				System.out.println("Guarde la foto!!");
@@ -474,6 +574,17 @@ public class ManejadorConexiones implements ICliente {
 				Paginador.getPaginador().adelante = true;
 				Paginador.getPaginador().setCurrent(Constantes.DETALLES_BI_VIS);
 
+			} else {
+				CentralDatos.traidaPreview = true;
+				procesarFotoPreviaResultado();
+			}
+			break;
+			
+		case Constantes.RESULTADOS_BUSQUEDA_COORD_VIS:
+			if (CentralDatos.traidaPreview) {
+				Paginador.getPaginador().adelante = true;
+				Paginador.getPaginador().setCurrent(Constantes.DETALLES_COORD_VIS);
+				
 			} else {
 				CentralDatos.traidaPreview = true;
 				procesarFotoPreviaResultado();
