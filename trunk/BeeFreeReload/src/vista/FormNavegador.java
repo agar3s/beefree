@@ -95,7 +95,7 @@ public class FormNavegador extends Form implements Runnable, IPaginable,
 	}
 
 	private void iniciarVariables() {
-		CentralDatos.zoom = 13;
+		CentralDatos.zoom = 10;
 		if (CentralDatos.latitud == 0 && CentralDatos.longitud == 0) {
 			CentralDatos.longitud = -74.1412451810;
 			CentralDatos.latitud = 4.63;
