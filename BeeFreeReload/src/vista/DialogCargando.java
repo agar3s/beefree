@@ -11,7 +11,7 @@ import com.sun.lwuit.animations.CommonTransitions;
 
 import conexion.ConectorDownload;
 import conexion.ConectorHttp;
-import conexion.GoogleMaps;
+import conexion.YahooMaps;
 import conexion.HttpMultipartRequest;
 import conexion.ICargable;
 import conexion.ICliente;
@@ -67,8 +67,8 @@ public class DialogCargando extends Dialog implements Runnable {
 			break;
 		case CONEXION_GOOGLE_MAP:
 			// modify
-			conexion = new GoogleMaps();
-			((GoogleMaps) conexion).retrieveStaticImage(CentralDatos.longitud,
+			conexion = new YahooMaps();
+			((YahooMaps) conexion).retrieveStaticImage(CentralDatos.longitud,
 					CentralDatos.latitud);
 
 			break;
